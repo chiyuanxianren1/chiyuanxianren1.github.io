@@ -1,0 +1,827 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_tq6stt6tcg';window.REIMU_CONFIG.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    微服务架构 |
+    
+    Hexo
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="项目描述：一个电商小项目，类似于京东淘宝，基于这个单体项目来实战从单体架构到微服务架构的演变过程、分析其中存在的问题，以及微服务技术是如何解决这些问题的。 单体架构：单体架构（monolithic structure）：顾名思义，整个项目中所有功能模块都在一个工程中开发；项目部署时需要对所有模块一起编译、打包；项目的架构设计、开发模式都非常简单。当项目规模较小时，这种模式上手快，部署、运维也都很方">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务架构">
+<meta property="og:url" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="项目描述：一个电商小项目，类似于京东淘宝，基于这个单体项目来实战从单体架构到微服务架构的演变过程、分析其中存在的问题，以及微服务技术是如何解决这些问题的。 单体架构：单体架构（monolithic structure）：顾名思义，整个项目中所有功能模块都在一个工程中开发；项目部署时需要对所有模块一起编译、打包；项目的架构设计、开发模式都非常简单。当项目规模较小时，这种模式上手快，部署、运维也都很方">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-01-29.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-12-28.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-30-51.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-40-11.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-40-23.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-44-34.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-21-51.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-50-54.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-51-30.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-53-17.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-57-28.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-08-34.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-11-37.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-10-07.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-16-32.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-19-23.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-21-20.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-21-56.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-47-07.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-51-15.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-52-53.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-13-00-07.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-13-01-40.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-13-04-57.png">
+<meta property="article:published_time" content="2024-12-04T05:26:56.000Z">
+<meta property="article:modified_time" content="2024-12-04T05:33:32.499Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chiyuanxianren1.github.io/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-01-29.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/">Home</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/archives">Archives</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/about">About</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/friend">Friend</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="微服务架构">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">微服务架构</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-微服务架构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-12-04T05:26:56.000Z" itemprop="datePublished">2024-12-04</time>
+    <time style="display: none;" id="post-update-time">2024-12-04</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="项目描述："><a href="#项目描述：" class="headerlink" title="项目描述："></a>项目描述：</h1><p>一个电商小项目，类似于京东淘宝，基于这个单体项目来实战从单体架构到微服务架构的演变过程、分析其中存在的问题，以及微服务技术是如何解决这些问题的。</p>
+<h1 id="单体架构："><a href="#单体架构：" class="headerlink" title="单体架构："></a>单体架构：</h1><p>单体架构（monolithic structure）：顾名思义，整个项目中所有功能模块都在一个工程中开发；项目部署时需要对所有模块一起编译、打包；项目的架构设计、开发模式都非常简单。<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-01-29.png"><br>当项目规模较小时，这种模式上手快，部署、运维也都很方便，因此早期很多小型项目都采用这种模式。</p>
+<p>但随着项目的业务规模越来越大，团队开发人员也不断增加，单体架构就呈现出越来越多的问题：  </p>
+<ul>
+<li><strong>团队协作成本高</strong>：团队数十个人同时协作开发同一个项目，由于所有模块都在一个项目中，不同模块的代码之间物理边界越来越模糊。最终要把功能合并到一个分支，绝对会陷入到解决冲突的泥潭之中。</li>
+<li><strong>系统发布效率低</strong>：任何模块变更都需要发布整个系统，而系统发布过程中需要多个模块之间制约较多，需要对比各种文件，任何一处出现问题都会导致发布失败，往往一次发布需要数十分钟甚至数小时。</li>
+<li><strong>系统可用性差</strong>：单体架构各个功能模块是作为一个服务部署，相互之间会互相影响，一些热点功能会耗尽系统资源，导致其它服务低可用。</li>
+</ul>
+<h1 id="微服务架构："><a href="#微服务架构：" class="headerlink" title="微服务架构："></a>微服务架构：</h1><p>微服务架构，首先是服务化，就是将单体架构中的功能模块从单体应用中拆分出来，独立部署为多个服务。同时要满足下面的一些特点：  </p>
+<ul>
+<li><strong>单一职责</strong>：一个微服务负责一部分业务功能，并且其核心数据不依赖于其它模块。</li>
+<li><strong>团队自治</strong>：每个微服务都有自己独立的开发、测试、发布、运维人员，团队人员规模不超过10人。</li>
+<li><strong>服务自治</strong>：每个微服务都独立打包部署，访问自己独立的数据库。并且要做好服务隔离，避免对其它服务产生影响</li>
+</ul>
+<p>我们就可以把商品、用户、购物车、交易等模块拆分，交给不同的团队去开发，并独立部署：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-12-28.png"><br>那么，单体架构存在的问题有没有解决呢？</p>
+<ul>
+<li>团队协作成本高？<br>由于服务拆分，每个服务代码量大大减少，参与开发的后台人员在1~3名，协作成本大大降低</li>
+<li>系统发布效率低？<br>每个服务都是独立部署，当有某个服务有代码变更时，只需要打包部署该服务即可</li>
+<li>系统可用性差？<br>每个服务独立部署，并且做好服务隔离，使用自己的服务器资源，不会影响到其它服务。</li>
+</ul>
+<h1 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h1><p>例子：将购物车服务与商品服务独立出来之后，查询购物车商品信息时就面临着购物车服务调用商品服务的问题，这时候就需要使用远程调用。<br>微服务之间的远程调用被称为<strong>RPC</strong>，即远程过程调用。<strong>RPC</strong>的实现方式有很多，比如：<br>基于Http协议<br>基于Dubbo协议<br>如果只是使用原始的发送Http请求的方式是把请求写死的，当涉及多实例部署时就会出问题。因此我们可以使用RPC框架封装好的远程调用的组件实现服务发现和负载均衡等功能。<br>比如下图：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-30-51.png"><br>这种调用方式，与原本的本地方法调用差异太大，编程时的体验也不统一，一会儿远程调用，一会儿本地调用。<br>因此，我们必须想办法改变远程调用的开发模式，让<strong>远程调用像本地方法调用一样</strong>简单。这里就要用到OpenFeign或者Dubbo组件了。OpenFeign依旧基于http协议，需要restful风格的接口，而Dubbo是使用动态代理发送类信息，在服务提供端再使用反射来调用方法。这两种组件对于服务调用者来说都像是本地调用一样，因为使用了动态代理。  </p>
+<p>下面是OpenFeign的使用： </p>
+<ol>
+<li>开启OpenFeign<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-40-11.png"></li>
+<li>编写OpenFeign客户端<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-40-23.png"></li>
+<li>使用FeignClient<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-44-34.png"></li>
+</ol>
+<h1 id="Nacos注册中心"><a href="#Nacos注册中心" class="headerlink" title="Nacos注册中心"></a>Nacos注册中心</h1><p>服务的注册中心，统一配置中心，由键值型数据库&#x2F;zookeeper实现，作者本人曾模仿Dubbo架构实现过由etcd作为注册中心的RPC。<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-21-51.png">  </p>
+<h1 id="网关（Nginx-Kong-SpringCloudGateway）"><a href="#网关（Nginx-Kong-SpringCloudGateway）" class="headerlink" title="网关（Nginx,Kong,SpringCloudGateway）"></a>网关（Nginx,Kong,SpringCloudGateway）</h1><p>什么是网关？<br>顾明思议，网关就是网络的关口。数据在网络间传输，从一个网络传输到另一网络时就需要经过网关来做数据的路由和转发以及数据安全的校验。<br>更通俗的来讲，网关就像是以前园区传达室的大爷。</p>
+<ul>
+<li>外面的人要想进入园区，必须经过大爷的认可，如果你是不怀好意的人，肯定被直接拦截。</li>
+<li>外面的人要传话或送信，要找大爷。大爷帮你带给目标人。<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-50-54.png"></li>
+</ul>
+<p>我目前用的比较多的是SpringCloudGateway,因为可以使用java代码。<br>SpringCloudGateway网关也相当于一个微服务，其会注册到nacos，并拉取所有的服务信息。<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-51-30.png"></p>
+<p>gateway网关可以实现的功能太多了，有很多断言规则，过滤器还可以实现很多特性。<br>下面的大部分功能都是通过过滤器实现的：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-53-17.png"><br>具体的实现我们可以参考官方文档，很详细。</p>
+<h1 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h1><p>实分布式事务产生的一个重要原因，就是参与事务的多个分支事务互相无感知，不知道彼此的执行状态。因此解决分布式事务的思想非常简单：就是找一个<strong>统一的事务协调者</strong>，与多个分支事务通信，检测每个分支事务的执行状态，保证全局事务下的每一个分支事务同时成功或失败即可。大多数的分布式事务框架都是基于这个理论来实现的。<br>我们以Seata为例子<br>在Seata的事务管理中有三个重要的角色：</p>
+<ul>
+<li>TC (Transaction Coordinator) - 事务协调者：维护全局和分支事务的状态，协调全局事务提交或回滚。 </li>
+<li>TM (Transaction Manager) - 事务管理器：定义全局事务的范围、开始全局事务、提交或回滚全局事务。 </li>
+<li>RM (Resource Manager) - 资源管理器：管理分支事务，与TC交谈以注册分支事务和报告分支事务的状态，并驱动分支事务提交或回滚。</li>
+</ul>
+<p>Seata的工作架构如图所示：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-11-57-28.png"></p>
+<p>其中，<strong>TM</strong>和<strong>RM</strong>可以理解为Seata的客户端部分，引入到参与事务的微服务依赖中即可。将来TM和RM就会协助微服务，实现本地分支事务与<strong>TC</strong>之间交互，实现事务的提交或回滚。</p>
+<p>而<strong>TC</strong>服务则是事务协调中心，是一个独立的微服务，需要单独部署。(使用docker快速部署)</p>
+<p>比较类似的就是分布式锁的实现，如果是单体架构，我们实现一个秒杀业务，需要保证一人一单，就需要对用户id加锁，但是如果是多实例集群部署，每一台服务器上都有一个独立的java虚拟机，就有可能出现一个用户在不同服务器上分别下了一单的情况，为了避免这种情况，我们就需要有一个能够统一协调多个服务的组件，比如每一个服务都会访问的数据库，这里我们就要提到redis,它可是实现分布式锁的热门选手<br>加锁时执行setnx指令，比如setnx k v,这时如果其他的服务想要获取锁，也要执行该指令，这时就会阻塞，实现了互斥。分布式锁细节部分太多了，为了防止误删还要加上当前的线程id，为了保证原子性还要使用Lua脚本（已经不想打字了。。。）此外使用redis的数据结构还可以实现很多有趣的功能。。。（参考作者的另一篇关于redis学习的博客，里面的功能很详细）</p>
+<h1 id="消息队列（RabbitMQ，Kafka）"><a href="#消息队列（RabbitMQ，Kafka）" class="headerlink" title="消息队列（RabbitMQ，Kafka）"></a>消息队列（RabbitMQ，Kafka）</h1><h2 id="我们现在基于OpenFeign的调用都属于是同步调用，那么这种方式存在哪些问题呢？"><a href="#我们现在基于OpenFeign的调用都属于是同步调用，那么这种方式存在哪些问题呢？" class="headerlink" title="我们现在基于OpenFeign的调用都属于是同步调用，那么这种方式存在哪些问题呢？"></a>我们现在基于OpenFeign的调用都属于是同步调用，那么这种方式存在哪些问题呢？</h2><p><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-08-34.png"><br>目前我们采用的是基于OpenFeign的同步调用，也就是说业务执行流程是这样的：</p>
+<ul>
+<li>支付服务需要先调用用户服务完成余额扣减</li>
+<li>然后支付服务自己要更新支付流水单的状态</li>
+<li>然后支付服务调用交易服务，更新业务订单状态为已支付</li>
+</ul>
+<p>三个步骤依次执行。<br>这其中就存在3个问题：<br><strong>第一，拓展性差</strong><br>我们目前的业务相对简单，但是随着业务规模扩大，产品的功能也在不断完善。<br>在大多数电商业务中，用户支付成功后都会以短信或者其它方式通知用户，告知支付成功。假如后期产品经理提出这样新的需求，你怎么办？是不是要在上述业务中再加入通知用户的业务？<br>某些电商项目中，还会有积分或金币的概念。假如产品经理提出需求，用户支付成功后，给用户以积分奖励或者返还金币，你怎么办？是不是要在上述业务中再加入积分业务、返还金币业务？<br>。。。<br>最终你的支付业务会越来越臃肿：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-11-37.png"><br>也就是说每次有新的需求，现有支付逻辑都要跟着变化，代码经常变动，<strong>不符合开闭原则</strong>，拓展性不好。<br><strong>第二，性能下降</strong><br>由于我们采用了同步调用，调用者需要等待服务提供者执行完返回结果后，才能继续向下执行，也就是说每次远程调用，调用者都是阻塞等待状态。最终整个业务的响应时长就是每次远程调用的执行时长之和：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-10-07.png"><br>假如每个微服务的执行时长都是50ms，则最终整个业务的耗时可能高达300ms，性能太差了。<br><strong>第三，级联失败</strong><br>由于我们是基于OpenFeign调用交易服务、通知服务。当交易服务、通知服务出现故障时，整个事务都会回滚，交易失败。<br>这其实就是同步调用的级联失败问题。<br>但是大家思考一下，我们假设用户余额充足，扣款已经成功，此时我们应该确保支付流水单更新为已支付，确保交易成功。毕竟收到手里的钱没道理再退回去吧。<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-16-32.png"><br>因此，这里不能因为短信通知、更新订单状态失败而回滚整个事务。<br>综上，同步调用的方式存在下列问题：</p>
+<ul>
+<li>拓展性差</li>
+<li>性能下降</li>
+<li>级联失败</li>
+</ul>
+<h2 id="而要解决这些问题，我们就必须用异步调用的方式来代替同步调用。"><a href="#而要解决这些问题，我们就必须用异步调用的方式来代替同步调用。" class="headerlink" title="而要解决这些问题，我们就必须用异步调用的方式来代替同步调用。"></a>而要解决这些问题，我们就必须用异步调用的方式来代替同步调用。</h2><p>异步调用方式其实就是基于消息通知的方式，一般包含三个角色：</p>
+<ul>
+<li>消息发送者：投递消息的人，就是原来的调用方</li>
+<li>消息Broker：管理、暂存、转发消息，你可以把它理解成微信服务器</li>
+<li>消息接收者：接收和处理消息的人，就是原来的服务提供方</li>
+</ul>
+<p><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-19-23.png"><br>在异步调用中，发送者不再直接同步调用接收者的业务接口，而是发送一条消息投递给消息Broker。然后接收者根据自己的需求从消息Broker那里订阅消息。每当发送方发送消息后，接受者都能获取消息并处理。<br>这样，发送消息的人和接收消息的人就完全解耦了。</p>
+<p>还是以余额支付业务为例：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-21-20.png"><br>除了扣减余额、更新支付流水单状态以外，其它调用逻辑全部取消。而是改为发送一条消息到Broker。而相关的微服务都可以订阅消息通知，一旦消息到达Broker，则会分发给每一个订阅了的微服务，处理各自的业务。</p>
+<p>假如产品经理提出了新的需求，比如要在支付成功后更新用户积分。支付代码完全不用变更，而仅仅是让积分服务也订阅消息即可：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-21-56.png"><br>不管后期增加了多少消息订阅者，作为支付服务来讲，执行问扣减余额、更新支付流水状态后，发送消息即可。业务耗时仅仅是这三部分业务耗时，仅仅100ms，大大提高了业务性能。</p>
+<p>另外，不管是交易服务、通知服务，还是积分服务，他们的业务与支付关联度低。现在采用了异步调用，解除了耦合，他们即便执行过程中出现了故障，也不会影响到支付服务。</p>
+<p>综上，异步调用的优势包括：</p>
+<ul>
+<li>耦合度更低</li>
+<li>性能更好</li>
+<li>业务拓展性强</li>
+<li>故障隔离，避免级联失败</li>
+</ul>
+<h1 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h1><p><strong>对于电商项目来说，由于数据库模糊查询不走索引，在数据量较大的时候，查询性能很差。</strong><br><strong>数据库模糊查询随着表数据量的增多，查询性能的下降会非常明显，而搜索引擎的性能则不会随着数据增多而下降太多。</strong><br><strong>数据库的模糊搜索功能单一，匹配条件非常苛刻，必须恰好包含用户搜索的关键字。而在搜索引擎中，用户输入出现个别错字，或者用拼音搜索、同义词搜索都能正确匹配到数据。</strong><br><strong>综上，在面临海量数据的搜索，或者有一些复杂搜索需求的时候，推荐使用专门的搜索引擎来实现搜索功能。</strong></p>
+<p>elasticsearch是一款非常强大的开源搜索引擎，支持的功能非常多<br>elasticsearch之所以有如此高性能的搜索表现，正是得益于底层的倒排索引技术。那么什么是倒排索引呢？<br>倒排索引的概念是基于MySQL这样的正向索引而言的。  </p>
+<table>
+<thead>
+<tr>
+<th align="center">id</th>
+<th align="center">title</th>
+<th align="center">price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1</td>
+<td align="center">小米手机</td>
+<td align="center">3499</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">小米手机</td>
+<td align="center">4999</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">华为小米充电器</td>
+<td align="center">49</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">小米手环</td>
+<td align="center">49</td>
+</tr>
+<tr>
+<td align="center">…</td>
+<td align="center">…</td>
+<td align="center">…</td>
+</tr>
+</tbody></table>
+<p>其中的id字段已经创建了索引，由于索引底层采用了B+树结构，因此我们根据id搜索的速度会非常快。但是其他字段例如title，只在叶子节点上存在。<br>因此要根据title搜索的时候只能遍历树中的每一个叶子节点，判断title数据是否符合要求。<br>比如用户的SQL语句为：  </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tb_goods <span class="keyword">where</span> title <span class="keyword">like</span> <span class="string">&#x27;%手机%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>搜索的大概流程：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-47-07.png"><br>说明：</p>
+<ul>
+<li>1）检查到搜索条件为like ‘%手机%’，需要找到title中包含手机的数据</li>
+<li>2）逐条遍历每行数据（每个叶子节点），比如第1次拿到id为1的数据</li>
+<li>3）判断数据中的title字段值是否符合条件</li>
+<li>4）如果符合则放入结果集，不符合则丢弃</li>
+<li>5）回到步骤1</li>
+</ul>
+<p>综上，根据id精确匹配时，可以走索引，查询效率较高。而当搜索条件为模糊匹配时，由于索引无法生效，导致从索引查询退化为全表扫描，效率很差。<br>因此，正向索引适合于根据索引字段的精确搜索，不适合基于部分词条的模糊匹配。<br>而倒排索引恰好解决的就是根据部分词条模糊匹配的问题。</p>
+<h2 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h2><p>有两个非常重要的概念：  </p>
+<ul>
+<li>文档（Document）：用来搜索的数据，其中的每一条数据就是一个文档。例如一个网页、一个商品信息</li>
+<li>词条（Term）：对文档数据或用户搜索数据，利用某种算法分词，得到的具备含义的词语就是词条。例如：我是中国人，就可以分为：我、是、中国人、中国、国人这样的几个词条</li>
+</ul>
+<p>创建倒排索引是对正向索引的一种特殊处理和应用，流程如下：</p>
+<ul>
+<li>将每一个文档的数据利用分词算法根据语义拆分，得到一个个词条</li>
+<li>创建表，每行数据包括词条、词条所在文档id、位置等信息</li>
+<li>因为词条唯一性，可以给词条创建正向索引</li>
+</ul>
+<p>此时形成的这张以词条为索引的表，就是倒排索引表，两者对比如下：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-51-15.png"><br>倒排索引的搜索流程如下（以搜索”华为手机”为例），如图<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-12-52-53.png"><br>流程描述：<br>1）用户输入条件”华为手机”进行搜索。<br>2）对用户输入条件分词，得到词条：华为、手机。<br>3）拿着词条在倒排索引中查找（由于词条有索引，查询效率很高），即可得到包含词条的文档id：1、2、3。<br>4）拿着文档id到正向索引中查找具体文档即可（由于id也有索引，查询效率也很高）。  </p>
+<p>虽然要先查询倒排索引，再查询倒排索引，但是无论是词条、还是文档id都建立了索引，查询速度非常快！无需全表扫描。  </p>
+<h2 id="为什么一个叫做正向索引，一个叫做倒排索引呢？"><a href="#为什么一个叫做正向索引，一个叫做倒排索引呢？" class="headerlink" title="为什么一个叫做正向索引，一个叫做倒排索引呢？"></a>为什么一个叫做正向索引，一个叫做倒排索引呢？</h2><ul>
+<li>正向索引是最传统的，根据id索引的方式。但根据词条查询时，必须先逐条获取每个文档，然后判断文档中是否包含所需要的词条，是根据文档找词条的过程。 </li>
+<li>而倒排索引则相反，是先找到用户要搜索的词条，根据词条得到保护词条的文档的id，然后根据id获取文档。是根据词条找文档的过程。</li>
+</ul>
+<p>是不是恰好反过来了？<br>那么两者方式的优缺点是什么呢？<br>正向索引：  </p>
+<ul>
+<li>优点： <ul>
+<li>可以给多个字段创建索引</li>
+<li>根据索引字段搜索、排序速度非常快</li>
+</ul>
+</li>
+<li>缺点： <ul>
+<li>根据非索引字段，或者索引字段中的部分词条查找时，只能全表扫描。</li>
+</ul>
+</li>
+</ul>
+<p>倒排索引：</p>
+<ul>
+<li>优点： <ul>
+<li>根据词条搜索、模糊搜索时，速度非常快</li>
+</ul>
+</li>
+<li>缺点： <ul>
+<li>只能给词条创建索引，而不是字段</li>
+<li>无法根据字段做排序</li>
+</ul>
+</li>
+</ul>
+<h2 id="es与mysql一些联系："><a href="#es与mysql一些联系：" class="headerlink" title="es与mysql一些联系："></a>es与mysql一些联系：</h2><p>elasticsearch是面向文档（Document）存储的，可以是数据库中的一条商品数据，一个订单信息。文档数据会被序列化为json格式后存储在elasticsearch中：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-13-00-07.png"><br>因此，原本数据库中的一行数据就是ES中的一个JSON文档；而数据库中每行数据都包含很多列，这些列就转换为JSON文档中的字段（Field）。  </p>
+<p>随着业务发展，需要在es中存储的文档也会越来越多，比如有商品的文档、用户的文档、订单文档等等：<br>所有文档都散乱存放显然非常混乱，也不方便管理。<br>因此，我们要将类型相同的文档集中在一起管理，称为索引（Index）。例如：<br><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-13-01-40.png"></p>
+<ul>
+<li>所有用户文档，就可以组织在一起，称为用户的索引；</li>
+<li>所有商品的文档，可以组织在一起，称为商品的索引；</li>
+<li>所有订单的文档，可以组织在一起，称为订单的索引；</li>
+</ul>
+<p>因此，我们可以把索引当做是数据库中的表。<br>数据库的表会有约束信息，用来定义表的结构、字段的名称、类型等信息。因此，索引库中就有映射（mapping），是索引中文档的字段约束信息，类似表的结构约束。  </p>
+<p>那是不是说，我们学习了elasticsearch就不再需要mysql了呢？<br>并不是如此，两者各自有自己的擅长之处：</p>
+<ul>
+<li>Mysql：擅长事务类型操作，可以确保数据的安全和一致性 </li>
+<li>Elasticsearch：擅长海量数据的搜索、分析、计算</li>
+</ul>
+<p>因此在企业中，往往是两者结合使用：</p>
+<ul>
+<li>对安全性要求较高的写操作，使用mysql实现</li>
+<li>对查询性能要求较高的搜索需求，使用elasticsearch实现</li>
+<li>两者再基于某种方式，实现数据的同步，保证一致性</li>
+</ul>
+<p><img src="/2024/12/04/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84/2024-12-04-13-04-57.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="/images/banner.webp" data-sizes="auto" alt="Vert.x" class="lazyload">
+          
+        
+        <a href="/2024/12/05/vert.x/"></a>
+        <div class="article-nav-caption">Newer</div>
+        <h3 class="article-nav-title">
+          
+            Vert.x
+          
+        </h3>
+      </div>
+    
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%8F%8F%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">项目描述：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E4%BD%93%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">单体架构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">微服务架构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RPC"><span class="toc-number">4.</span> <span class="toc-text">RPC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nacos%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">5.</span> <span class="toc-text">Nacos注册中心</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%EF%BC%88Nginx-Kong-SpringCloudGateway%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">网关（Nginx,Kong,SpringCloudGateway）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">7.</span> <span class="toc-text">分布式事务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%88RabbitMQ%EF%BC%8CKafka%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">消息队列（RabbitMQ，Kafka）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E7%8E%B0%E5%9C%A8%E5%9F%BA%E4%BA%8EOpenFeign%E7%9A%84%E8%B0%83%E7%94%A8%E9%83%BD%E5%B1%9E%E4%BA%8E%E6%98%AF%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8%EF%BC%8C%E9%82%A3%E4%B9%88%E8%BF%99%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AD%98%E5%9C%A8%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="toc-number">8.1.</span> <span class="toc-text">我们现在基于OpenFeign的调用都属于是同步调用，那么这种方式存在哪些问题呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%8C%E8%A6%81%E8%A7%A3%E5%86%B3%E8%BF%99%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%8C%E6%88%91%E4%BB%AC%E5%B0%B1%E5%BF%85%E9%A1%BB%E7%94%A8%E5%BC%82%E6%AD%A5%E8%B0%83%E7%94%A8%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9D%A5%E4%BB%A3%E6%9B%BF%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8%E3%80%82"><span class="toc-number">8.2.</span> <span class="toc-text">而要解决这些问题，我们就必须用异步调用的方式来代替同步调用。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Elasticsearch"><span class="toc-number">9.</span> <span class="toc-text">Elasticsearch</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-number">9.1.</span> <span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E4%B8%AA%E5%8F%AB%E5%81%9A%E6%AD%A3%E5%90%91%E7%B4%A2%E5%BC%95%EF%BC%8C%E4%B8%80%E4%B8%AA%E5%8F%AB%E5%81%9A%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%91%A2%EF%BC%9F"><span class="toc-number">9.2.</span> <span class="toc-text">为什么一个叫做正向索引，一个叫做倒排索引呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#es%E4%B8%8Emysql%E4%B8%80%E4%BA%9B%E8%81%94%E7%B3%BB%EF%BC%9A"><span class="toc-number">9.3.</span> <span class="toc-text">es与mysql一些联系：</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="John Doe" class="lazyload">
+  <div class="sidebar-author-name">John Doe</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep rotate"></span>
+      John Doe
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        6k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        00:19
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E6%8F%8F%E8%BF%B0%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">项目描述：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8D%95%E4%BD%93%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">单体架构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">微服务架构：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RPC"><span class="toc-number">4.</span> <span class="toc-text">RPC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Nacos%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83"><span class="toc-number">5.</span> <span class="toc-text">Nacos注册中心</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E5%85%B3%EF%BC%88Nginx-Kong-SpringCloudGateway%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">网关（Nginx,Kong,SpringCloudGateway）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="toc-number">7.</span> <span class="toc-text">分布式事务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%88RabbitMQ%EF%BC%8CKafka%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">消息队列（RabbitMQ，Kafka）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%88%91%E4%BB%AC%E7%8E%B0%E5%9C%A8%E5%9F%BA%E4%BA%8EOpenFeign%E7%9A%84%E8%B0%83%E7%94%A8%E9%83%BD%E5%B1%9E%E4%BA%8E%E6%98%AF%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8%EF%BC%8C%E9%82%A3%E4%B9%88%E8%BF%99%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AD%98%E5%9C%A8%E5%93%AA%E4%BA%9B%E9%97%AE%E9%A2%98%E5%91%A2%EF%BC%9F"><span class="toc-number">8.1.</span> <span class="toc-text">我们现在基于OpenFeign的调用都属于是同步调用，那么这种方式存在哪些问题呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%80%8C%E8%A6%81%E8%A7%A3%E5%86%B3%E8%BF%99%E4%BA%9B%E9%97%AE%E9%A2%98%EF%BC%8C%E6%88%91%E4%BB%AC%E5%B0%B1%E5%BF%85%E9%A1%BB%E7%94%A8%E5%BC%82%E6%AD%A5%E8%B0%83%E7%94%A8%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9D%A5%E4%BB%A3%E6%9B%BF%E5%90%8C%E6%AD%A5%E8%B0%83%E7%94%A8%E3%80%82"><span class="toc-number">8.2.</span> <span class="toc-text">而要解决这些问题，我们就必须用异步调用的方式来代替同步调用。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Elasticsearch"><span class="toc-number">9.</span> <span class="toc-text">Elasticsearch</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-number">9.1.</span> <span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E4%B8%AA%E5%8F%AB%E5%81%9A%E6%AD%A3%E5%90%91%E7%B4%A2%E5%BC%95%EF%BC%8C%E4%B8%80%E4%B8%AA%E5%8F%AB%E5%81%9A%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95%E5%91%A2%EF%BC%9F"><span class="toc-number">9.2.</span> <span class="toc-text">为什么一个叫做正向索引，一个叫做倒排索引呢？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#es%E4%B8%8Emysql%E4%B8%80%E4%BA%9B%E8%81%94%E7%B3%BB%EF%BC%9A"><span class="toc-number">9.3.</span> <span class="toc-text">es与mysql一些联系：</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="John Doe" class="lazyload">
+  <div class="sidebar-author-name">John Doe</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">2</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+    
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.6/dist/index.umd.js" integrity="sha384-vkGvf25gm1C1PbcoD5dNfc137HzNL&#x2F;hr1RKA5HniJOaawtvUmH5lTVFgFAruE9Ge" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+
+
+
+
+
+
+
+
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.0.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+  </body>
+  </html>
+
