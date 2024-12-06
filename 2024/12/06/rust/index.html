@@ -1,0 +1,760 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_tq6stt6tcg';window.REIMU_CONFIG.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    Rust |
+    
+    Hexo
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="介绍我在大三的时候参加了rust操作系统训练营，第一阶段学习rust基础，完成了github上面的Rustlings，因此做一些rust语言特性的笔记。（参考rust语言圣经） rust简介Rust 是一种系统编程语言，它专注于安全、并发和性能。Rust 由 Mozilla 研究院开发，并在 2010 年首次发布。以下是 Rust 语言的一些关键特点：  内存安全：Rust 通过所有权（owner">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust">
+<meta property="og:url" content="https://chiyuanxianren1.github.io/2024/12/06/rust/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="介绍我在大三的时候参加了rust操作系统训练营，第一阶段学习rust基础，完成了github上面的Rustlings，因此做一些rust语言特性的笔记。（参考rust语言圣经） rust简介Rust 是一种系统编程语言，它专注于安全、并发和性能。Rust 由 Mozilla 研究院开发，并在 2010 年首次发布。以下是 Rust 语言的一些关键特点：  内存安全：Rust 通过所有权（owner">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-05-36.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-07-52.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-08-11.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-09-34.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-09-50.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-10-58.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-11-50.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-13-11.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-32-36.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-33-27.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-36-56.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-37-09.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-37-22.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-37-34.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-39-28.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-10-10-46.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-10-25-48.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-10-26-00.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-10-26-14.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-10-39-47.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-10-40-04.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-10-40-16.png">
+<meta property="og:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-10-40-31.png">
+<meta property="article:published_time" content="2024-12-06T03:04:27.000Z">
+<meta property="article:modified_time" content="2024-12-06T03:04:43.324Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chiyuanxianren1.github.io/2024/12/06/rust/2024-12-06-09-05-36.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/">Home</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/archives">Archives</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/about">About</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/friend">Friend</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="Rust">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Rust</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-rust" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/12/06/rust/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-12-06T03:04:27.000Z" itemprop="datePublished">2024-12-06</time>
+    <time style="display: none;" id="post-update-time">2024-12-06</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>我在大三的时候参加了rust操作系统训练营，第一阶段学习rust基础，完成了github上面的Rustlings，因此做一些rust语言特性的笔记。（参考rust语言圣经）</p>
+<h2 id="rust简介"><a href="#rust简介" class="headerlink" title="rust简介"></a>rust简介</h2><p>Rust 是一种系统编程语言，它专注于安全、并发和性能。Rust 由 Mozilla 研究院开发，并在 2010 年首次发布。以下是 Rust 语言的一些关键特点：</p>
+<ol>
+<li><p><strong>内存安全</strong>：Rust 通过所有权（ownership）、借用（borrowing）和生命周期（lifetimes）的概念，无需垃圾回收就能保证内存安全。</p>
+</li>
+<li><p><strong>类型安全</strong>：Rust 是一种静态类型语言，它在编译时强制类型检查，减少了运行时错误。</p>
+</li>
+<li><p><strong>并发编程</strong>：Rust 提供了强大的并发编程模型，允许开发者编写无数据竞争和无死锁的代码。</p>
+</li>
+<li><p><strong>性能</strong>：Rust 编译成机器码，能够生成高性能的代码，接近于 C 和 C++ 的性能。</p>
+</li>
+<li><p><strong>跨平台</strong>：Rust 支持多种操作系统和架构，包括 Windows、macOS、Linux 以及各种嵌入式系统。</p>
+</li>
+<li><p><strong>包管理</strong>：Rust 有一个强大的包管理器和构建工具，叫做 Cargo，它简化了依赖管理和构建过程。</p>
+</li>
+<li><p><strong>宏系统</strong>：Rust 提供了强大的宏系统，允许代码生成和元编程。</p>
+</li>
+<li><p><strong>错误处理</strong>：Rust 使用 <code>Result</code> 和 <code>Option</code> 类型来处理可能的错误，鼓励显式的错误处理。</p>
+</li>
+<li><p><strong>模式匹配</strong>：Rust 的模式匹配语法使得处理不同情况的代码更加简洁和清晰。</p>
+</li>
+<li><p><strong>社区驱动</strong>：Rust 有一个活跃和友好的社区，社区成员贡献了大量的库和工具。</p>
+</li>
+<li><p><strong>可扩展性</strong>：Rust 的语法和标准库都是可扩展的，允许开发者根据需要添加新的功能。</p>
+</li>
+<li><p><strong>无全局异常</strong>：Rust 没有全局异常机制，而是使用 <code>panic!</code> 宏来处理异常情况，这有助于避免隐藏的控制流和不可预测的行为。</p>
+</li>
+</ol>
+<p>Rust 语言因其在安全性和性能方面的平衡而受到许多系统级开发者的青睐，尤其是在需要高性能和高可靠性的领域，如操作系统、嵌入式系统、网络编程和游戏开发等。</p>
+<h2 id="rust变量值不可被修改"><a href="#rust变量值不可被修改" class="headerlink" title="rust变量值不可被修改"></a>rust变量值不可被修改</h2><p>比如i++,是错误语句。如果想要可变，需要在声明变量时使用mut关键字修饰。</p>
+<h2 id="结构体的三种声明方式"><a href="#结构体的三种声明方式" class="headerlink" title="结构体的三种声明方式"></a>结构体的三种声明方式</h2><p>标准结构体，元组结构体，单元结构体。<br><img src="/2024/12/06/rust/2024-12-06-09-05-36.png"></p>
+<h2 id="rust特有的所有权概念"><a href="#rust特有的所有权概念" class="headerlink" title="rust特有的所有权概念"></a>rust特有的所有权概念</h2><p>一个变量x赋值给另一个变量y，会使原先的变量x对数据的所有权转移给y。相当于x消失了。比如下面的结构体赋值，不能通过your_order&#x3D;order_template的方式给your_order赋值，否则会使order_template失去值。<br><img src="/2024/12/06/rust/2024-12-06-09-07-52.png"><br><img src="/2024/12/06/rust/2024-12-06-09-08-11.png"></p>
+<h2 id="引用与借用"><a href="#引用与借用" class="headerlink" title="引用与借用"></a>引用与借用</h2><p>类似指针，但是比指针安全。<br>将字符串的引用作为参数传递给函数，而不是复制，这应该可以避免所有权的问题。引用类型是没有所有权的。<br><img src="/2024/12/06/rust/2024-12-06-09-09-34.png"><br><img src="/2024/12/06/rust/2024-12-06-09-09-50.png"><br>rust的可变引用和不可变引用的并发冲突问题是针对同一个变量的。可以同时读，但读写不共存，也不能同时写，保证数据同步，这一点能看出rust的设计思想，将我们在并发编程中可能遇到的问题，在平日的代码中就设计到，让我们时刻在思考数据的安全性。<br><img src="/2024/12/06/rust/2024-12-06-09-10-58.png"></p>
+<h2 id="两种字符串类型"><a href="#两种字符串类型" class="headerlink" title="两种字符串类型"></a>两种字符串类型</h2><p>&amp;str和String.很明显看出&amp;str是不可变引用类型，想要变就必须转为String类型。<br><img src="/2024/12/06/rust/2024-12-06-09-11-50.png"></p>
+<h2 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h2><p>Option是一个枚举类型。虽然Rust中有null的概念，但是使用null并不是Rust中常见的模式。rust中一般采用Option中的None作为空。但采用此方式相对的会使获取数据等操作变得麻烦。非空的数据是由Option的另一个变量Some封装的。需要调用unwrap()才能解包。这也能解释为什么rust中的Hash Map获取数据后需要unwrap()才能获取真实数据。因为HashMap就是采用了Option。<br><img src="/2024/12/06/rust/2024-12-06-09-13-11.png">  </p>
+<h2 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h2><p>If let和while let中的模式匹配研究了好久啊………好烦！！！本质上和match的用法是一样的。只是前两种只关注我需要的，而其他的无关项无需写太多。但match需要把每一项都考虑。  </p>
+<ul>
+<li>普通match<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Coin</span> &#123;</span><br><span class="line">    Penny,</span><br><span class="line">    Nickel,</span><br><span class="line">    Dime,</span><br><span class="line">    Quarter,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">value_in_cents</span>(coin: Coin) <span class="punctuation">-&gt;</span> <span class="type">u8</span> &#123;</span><br><span class="line">    <span class="keyword">match</span> coin &#123;</span><br><span class="line">        Coin::Penny =&gt;  &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;Lucky penny!&quot;</span>);</span><br><span class="line">            <span class="number">1</span></span><br><span class="line">        &#125;,</span><br><span class="line">        Coin::Nickel =&gt; <span class="number">5</span>,</span><br><span class="line">        Coin::Dime =&gt; <span class="number">10</span>,</span><br><span class="line">        Coin::Quarter =&gt; <span class="number">25</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>if let<br>有时会遇到只有一个模式的值需要被处理，其它值直接忽略的场景，如果用 match 来处理就要写成下面这样：  <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">v</span> = <span class="title function_ invoke__">Some</span>(<span class="number">3u8</span>);</span><br><span class="line"><span class="keyword">match</span> v &#123;</span><br><span class="line">    <span class="title function_ invoke__">Some</span>(<span class="number">3</span>) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;three&quot;</span>),</span><br><span class="line">    _ =&gt; (),</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+我们只想要对 Some(3) 模式进行匹配, 不想处理任何其他 Some<u8> 值或 None 值。但是为了满足 match 表达式（穷尽性）的要求，写代码时必须在处理完这唯一的成员后加上 _ &#x3D;&gt; ()，这样会增加不少无用的代码。</u8></li>
+</ul>
+<p>俗话说“杀鸡焉用牛刀”，我们完全可以用 if let 的方式来实现：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(<span class="number">3</span>) = v &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;three&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这两种匹配对于新手来说，可能有些难以抉择，但是只要记住一点就好：当你只要匹配一个条件，且忽略其他条件时就用 if let ，否则都用 match。</p>
+<h2 id="注意ref和-的区别"><a href="#注意ref和-的区别" class="headerlink" title="注意ref和&amp;的区别"></a>注意ref和&amp;的区别</h2><p>ref是把数据复制到栈上，没有所有权转换的问题。&amp;属于一种类型，如果形参使用&amp;，那么实参就必须传&amp;，而ref不是这样的。<br><img src="/2024/12/06/rust/2024-12-06-09-32-36.png"><br><img src="/2024/12/06/rust/2024-12-06-09-33-27.png"></p>
+<h2 id="Box智能指针学习以及堆栈上数据所有权转移的区别"><a href="#Box智能指针学习以及堆栈上数据所有权转移的区别" class="headerlink" title="Box智能指针学习以及堆栈上数据所有权转移的区别"></a>Box智能指针学习以及堆栈上数据所有权转移的区别</h2><p><img src="/2024/12/06/rust/2024-12-06-09-36-56.png"><br><img src="/2024/12/06/rust/2024-12-06-09-37-09.png"><br><img src="/2024/12/06/rust/2024-12-06-09-37-22.png"><br><img src="/2024/12/06/rust/2024-12-06-09-37-34.png">  </p>
+<h2 id="特征（trait）"><a href="#特征（trait）" class="headerlink" title="特征（trait）"></a>特征（trait）</h2><p>特征的概念可以理解为接口，实现特征的对象称为特征对象，特征对象和java中的多态有同样的功能。面向接口。<br><img src="/2024/12/06/rust/2024-12-06-09-39-28.png">  </p>
+<h2 id="泛型Generics"><a href="#泛型Generics" class="headerlink" title="泛型Generics"></a>泛型Generics</h2><p>下面是一个错误的泛型函数的实现：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">largest</span>&lt;T&gt;(list: &amp;[T]) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">largest</span> = list[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> &amp;item <span class="keyword">in</span> list.<span class="title function_ invoke__">iter</span>() &#123;</span><br><span class="line">        <span class="keyword">if</span> item &gt; largest &#123;</span><br><span class="line">            largest = item;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    largest</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">number_list</span> = <span class="built_in">vec!</span>[<span class="number">34</span>, <span class="number">50</span>, <span class="number">25</span>, <span class="number">100</span>, <span class="number">65</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = <span class="title function_ invoke__">largest</span>(&amp;number_list);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The largest number is &#123;&#125;&quot;</span>, result);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">char_list</span> = <span class="built_in">vec!</span>[<span class="string">&#x27;y&#x27;</span>, <span class="string">&#x27;m&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;q&#x27;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">result</span> = <span class="title function_ invoke__">largest</span>(&amp;char_list);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;The largest char is &#123;&#125;&quot;</span>, result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为 T 可以是任何类型，但不是所有的类型都能进行比较，因此上面的错误中，编译器建议我们给 T 添加一个类型限制：使用 std::cmp::PartialOrd 特征（Trait）对 T 进行限制，特征在下一节会详细介绍，现在你只要理解，该特征的目的就是让类型实现可比较的功能。</p>
+<p>同样的，不是所有 T 类型都能进行相加操作，因此我们需要用 std::ops::Add&lt;Output &#x3D; T&gt; 对 T 进行限制：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">add</span>&lt;T: std::ops::Add&lt;Output = T&gt;&gt;(a:T, b:T) <span class="punctuation">-&gt;</span> T &#123;</span><br><span class="line">    a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="lifetime生命周期"><a href="#lifetime生命周期" class="headerlink" title="lifetime生命周期"></a>lifetime生命周期</h2><p>基础知识</p>
+<ol>
+<li>函数生命周期</li>
+</ol>
+<ul>
+<li>原因：编译器有时无法静态推断函数中形参和返回值的生命周期，需要显式声明参数的生命周期。</li>
+<li>目标：防止悬空指针</li>
+<li>规则：同名生命周期参数绑定的对象<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 隐式生命周期</span></span><br><span class="line"><span class="comment">// 编译器在编译时无法推导出返回值，只有运行时才能推导出来</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>(x: &amp;<span class="type">str</span>, y: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 显式生命周期</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">longest</span>&lt;<span class="symbol">&#x27;a</span>&gt;(x: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>, y: &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span>) <span class="punctuation">-&gt;</span> &amp;<span class="symbol">&#x27;a</span> <span class="type">str</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x.<span class="title function_ invoke__">len</span>() &gt; y.<span class="title function_ invoke__">len</span>() &#123;</span><br><span class="line">        x</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        y</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//当编译器看到x: &amp;&#x27;a str的时候，&#x27;a会被编译器推断为x的生命周期</span></span><br><span class="line"><span class="comment">//当编译器看到y: &amp;&#x27;a str的时候，编译器会将&#x27;a推断为y的生命周期</span></span><br><span class="line"><span class="comment">//但是此时有冲突，于是编译器会将&#x27;a推断为x和y的生命周期中最小的那个。</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li>struct生命周期<br>当一个生命周期参数修饰多个字段的时候，编译器会将这个生命周期参数推断出这几个字段生命周期最小的那个。<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Foo</span>&lt;<span class="symbol">&#x27;a</span>, <span class="symbol">&#x27;b</span>&gt; &#123;</span><br><span class="line">    x: &amp;<span class="symbol">&#x27;a</span> <span class="type">i32</span>,</span><br><span class="line">    y: &amp;<span class="symbol">&#x27;b</span> <span class="type">i32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">x</span> = <span class="number">6</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">m</span>;                     </span><br><span class="line"><span class="comment">// x和y生命周期相同，打印时已经失效</span></span><br><span class="line">    &#123;                          </span><br><span class="line">        <span class="keyword">let</span> <span class="variable">y</span> = <span class="number">6</span>;            </span><br><span class="line">        <span class="keyword">let</span> <span class="variable">f</span> = Foo &#123; x: &amp;x, y: &amp;y &#125;;  </span><br><span class="line">        m = f.x;             </span><br><span class="line">    &#125;                          </span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, m);        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h2><p>一些宏定义，如果想判断是否发生panic，则需要在测试函数头上写#[should_panic]<br><img src="/2024/12/06/rust/2024-12-06-10-10-46.png"></p>
+<h2 id="其他的智能指针（太多了好难理解）"><a href="#其他的智能指针（太多了好难理解）" class="headerlink" title="其他的智能指针（太多了好难理解）"></a>其他的智能指针（太多了好难理解）</h2><ul>
+<li><p>Rc（引用计数）<br>是 Rust 中的一种类型，用于在单线程环境下共享同一份数据。当需要多个所有权时，可以使用 Rc，它跟踪引用的数量，允许多个所有者共享值，而不需要考虑线程安全问题。</p>
+</li>
+<li><p>Arc（原子引用计数）<br>是一种智能指针类型，用于提供线程安全的共享所有权机制。它允许多个线程同时持有同一个数据结构的访问权，并在所有持有者释放对数据的引用时自动释放底层资源。<br>Rc与Arc的用法差不多。</p>
+</li>
+<li><p>Cow智能指针<br>（做题之后还是一脸懵，返回值的Owned和Borrowed到底有什么区别啊！）</p>
+<ul>
+<li>读写分离：在一些业务场景中，需要对某个数据结构进行多次读取和少量修改，但是每次修改都会导致内存分配和复制操作，从而影响程序的性能和效率。 Cow 类型可以通过克隆操作来避免这个问题，从而提高程序的性能和效率。</li>
+<li>借用检查：在 Rust 中，借用检查是一项重要的安全特性，可以避免程序中出现内存安全问题。 但是，在某些情况下，借用检查会导致代码的复杂度和可读性变差。 Cow 类型可以通过引用和克隆操作来解决这个问题，从而简化代码的实现和维护。</li>
+</ul>
+</li>
+</ul>
+<h2 id="关于所有权冲突与复制"><a href="#关于所有权冲突与复制" class="headerlink" title="关于所有权冲突与复制"></a>关于所有权冲突与复制</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::sync::Arc;</span><br><span class="line"><span class="keyword">use</span> std::thread;</span><br><span class="line"><span class="keyword">use</span> std::time::Duration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">send_tx</span>(q:Queue, tx:mpsc::Sender&lt;<span class="type">u32</span>&gt;) &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">qc</span> = Arc::<span class="title function_ invoke__">new</span>(q);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">qc1</span> = Arc::<span class="title function_ invoke__">clone</span>(&amp;qc);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">qc2</span> = Arc::<span class="title function_ invoke__">clone</span>(&amp;qc);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对于理解所有权有很大的帮助！！！！</span></span><br><span class="line">    <span class="comment">// 两个线程同时需要tx的所有权，会发生冲突，所以需要复制一份所有权。</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tx1</span> = mpsc::Sender::<span class="title function_ invoke__">clone</span>(&amp;tx);</span><br><span class="line"></span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> &amp;qc1.first_half &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;sending &#123;:?&#125;&quot;</span>, val);</span><br><span class="line">            tx.<span class="title function_ invoke__">send</span>(*val).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    thread::<span class="title function_ invoke__">spawn</span>(<span class="keyword">move</span> || &#123;</span><br><span class="line">        <span class="keyword">for</span> <span class="variable">val</span> <span class="keyword">in</span> &amp;qc2.second_half &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;sending &#123;:?&#125;&quot;</span>, val);</span><br><span class="line">            tx1.<span class="title function_ invoke__">send</span>(*val).<span class="title function_ invoke__">unwrap</span>();</span><br><span class="line">            thread::<span class="title function_ invoke__">sleep</span>(Duration::<span class="title function_ invoke__">from_secs</span>(<span class="number">1</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// 假设有一个Arc&lt;Sender&lt;u32&gt;&gt;类型的q，这里需要根据实际情况初始化</span></span><br><span class="line">    <span class="comment">// let q = ...;</span></span><br><span class="line">    <span class="comment">// send_tx(q);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="欢迎来到宏的世界"><a href="#欢迎来到宏的世界" class="headerlink" title="欢迎来到宏的世界"></a>欢迎来到宏的世界</h2><p>拿vec![]的定义做例子说明声明式宏的定义。<br><img src="/2024/12/06/rust/2024-12-06-10-25-48.png"><br><img src="/2024/12/06/rust/2024-12-06-10-26-00.png"><br><img src="/2024/12/06/rust/2024-12-06-10-26-14.png">  </p>
+<p>过程宏的定义更加复杂。(去看圣经吧。。。)</p>
+<h2 id="一些综合的东西（自认为逻辑很巧妙）"><a href="#一些综合的东西（自认为逻辑很巧妙）" class="headerlink" title="一些综合的东西（自认为逻辑很巧妙）"></a>一些综合的东西（自认为逻辑很巧妙）</h2><ul>
+<li><p>实现类型转换From</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">From</span>&lt;&amp;<span class="type">str</span>&gt; <span class="keyword">for</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">from</span>(s: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> Person &#123;</span><br><span class="line">        <span class="keyword">let</span> (name, age) = <span class="keyword">match</span> s.<span class="title function_ invoke__">split_once</span>(<span class="string">&#x27;,&#x27;</span>) &#123;</span><br><span class="line">            <span class="title function_ invoke__">Some</span>((name, age)) =&gt; (name.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">to_string</span>(), age.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">to_string</span>()),</span><br><span class="line">            <span class="literal">None</span> =&gt; <span class="keyword">return</span> Person::<span class="title function_ invoke__">default</span>(),</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Ok</span>(age) = age.parse::&lt;<span class="type">usize</span>&gt;() &#123;</span><br><span class="line">            <span class="keyword">if</span> name.<span class="title function_ invoke__">len</span>() &gt; <span class="number">0</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> Person &#123;</span><br><span class="line">                    name: name,</span><br><span class="line">                    age: age,</span><br><span class="line">                &#125;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Person::<span class="title function_ invoke__">default</span>()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的逻辑如下：</p>
+<ol>
+<li>使用split_once方法尝试将输入的字符串s在第一个逗号处分割成name和age两部分。</li>
+<li>如果分割成功，去除name和age两端的空白字符，并将它们转换为String类型。</li>
+<li>如果分割失败，返回Person的默认实例。</li>
+<li>尝试将age字符串解析为usize类型。</li>
+<li>如果解析成功且name不为空，创建并返回一个Person实例，其中包含解析后的name和age。</li>
+<li>如果name为空或age解析失败，返回Person的默认实例。</li>
+</ol>
+</li>
+<li><p>实现类型转换FromStr</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">FromStr</span> <span class="keyword">for</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Err</span> = ParsePersonError;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">from_str</span>(s: &amp;<span class="type">str</span>) <span class="punctuation">-&gt;</span> <span class="type">Result</span>&lt;Person, <span class="keyword">Self</span>::<span class="literal">Err</span>&gt; &#123;</span><br><span class="line">        <span class="keyword">if</span> s.<span class="title function_ invoke__">is_empty</span>() &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(ParsePersonError::Empty);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">v</span> = s.<span class="title function_ invoke__">split</span>(<span class="string">&quot;,&quot;</span>).collect::&lt;<span class="type">Vec</span>&lt;&amp;<span class="type">str</span>&gt;&gt;();</span><br><span class="line">        <span class="keyword">let</span> (name, age) = <span class="keyword">match</span> &amp;v[..] &#123;</span><br><span class="line">            [name, age] =&gt; (name.<span class="title function_ invoke__">trim</span>().<span class="title function_ invoke__">to_string</span>(), age.<span class="title function_ invoke__">parse</span>().<span class="title function_ invoke__">map_err</span>(ParsePersonError::ParseInt)),</span><br><span class="line">            _ =&gt; <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(ParsePersonError::BadLen),</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">if</span> name.<span class="title function_ invoke__">is_empty</span>() &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_ invoke__">Err</span>(ParsePersonError::NoName);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_ invoke__">Ok</span>(Person &#123;</span><br><span class="line">            name: name,</span><br><span class="line">            age: age,</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码的逻辑如下：</p>
+</li>
+</ul>
+<ol>
+<li>定义了FromStr trait的关联错误类型Err为ParsePersonError。</li>
+<li>实现了from_str函数，它接受一个字符串切片&amp;str并返回一个Result，其中包含Person实例或解析错误。</li>
+<li>首先检查输入字符串是否为空，如果为空，则返回ParsePersonError::Empty错误。</li>
+<li>使用split方法将字符串按逗号分割，并收集结果到一个Vec&lt;&amp;str&gt;向量中。</li>
+<li>使用模式匹配来获取name和age。如果分割后的向量长度不正确，返回ParsePersonError::BadLen错误。</li>
+<li>尝试将age部分解析为整数，如果解析失败，使用map_err将错误转换为ParsePersonError::ParseInt。</li>
+<li>检查name是否为空，如果为空，返回ParsePersonError::NoName错误。</li>
+<li>如果所有检查都通过，创建并返回一个Person实例。</li>
+</ol>
+<h2 id="Unsafe"><a href="#Unsafe" class="headerlink" title="Unsafe"></a>Unsafe</h2><p><img src="/2024/12/06/rust/2024-12-06-10-39-47.png"><br><img src="/2024/12/06/rust/2024-12-06-10-40-04.png"><br><img src="/2024/12/06/rust/2024-12-06-10-40-16.png"><br><img src="/2024/12/06/rust/2024-12-06-10-40-31.png"></p>
+<h2 id="在项目中加深对裸指针的理解"><a href="#在项目中加深对裸指针的理解" class="headerlink" title="在项目中加深对裸指针的理解"></a>在项目中加深对裸指针的理解</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsafe</span> <span class="keyword">fn</span> <span class="title function_">modify_by_address</span>(address: <span class="type">usize</span>) &#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> Fill your safety notice of the code block below to match your</span></span><br><span class="line">    <span class="comment">// code&#x27;s behavior and the contract of this function. You may use the</span></span><br><span class="line">    <span class="comment">// comment of the test below as your format reference.</span></span><br><span class="line">    <span class="keyword">unsafe</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">p</span> = address <span class="keyword">as</span> *<span class="keyword">mut</span> <span class="type">u32</span>;</span><br><span class="line">        *p = <span class="number">0xAABBCCDD</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">test_success</span>() &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">t</span>: <span class="type">u32</span> = <span class="number">0x12345678</span>;</span><br><span class="line">        <span class="comment">// SAFETY: The address is guaranteed to be valid and contains</span></span><br><span class="line">        <span class="comment">// a unique reference to a `u32` local variable.</span></span><br><span class="line">        <span class="keyword">unsafe</span> &#123; <span class="title function_ invoke__">modify_by_address</span>(&amp;<span class="keyword">mut</span> t <span class="keyword">as</span> *<span class="keyword">mut</span> <span class="type">u32</span> <span class="keyword">as</span> <span class="type">usize</span>) &#125;;</span><br><span class="line">        <span class="built_in">assert!</span>(t == <span class="number">0xAABBCCDD</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&amp;mut t获取到变量t的引用（包含内存地址），把t转为<em>mut u32裸指针（真实的32位内存地址），再转为usize类型的变量（已经不是裸指针了）。所以在函数体中若想通过解引用裸指针来访问t，就需要先把address转为裸指针类型，在通过</em>的方式解引用来改变t的值。</p>
+<h2 id="Box智能指针与裸指针之间的转换"><a href="#Box智能指针与裸指针之间的转换" class="headerlink" title="Box智能指针与裸指针之间的转换"></a>Box智能指针与裸指针之间的转换</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsafe</span> <span class="keyword">fn</span> <span class="title function_">raw_pointer_to_box</span>(ptr: *<span class="keyword">mut</span> Foo) <span class="punctuation">-&gt;</span> <span class="type">Box</span>&lt;Foo&gt; &#123;</span><br><span class="line">    <span class="comment">// SAFETY: The `ptr` contains an owned box of `Foo` by contract. We</span></span><br><span class="line">    <span class="comment">// simply reconstruct the box from that pointer.</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">ret</span>: <span class="type">Box</span>&lt;Foo&gt; = <span class="keyword">unsafe</span> &#123;</span><br><span class="line">        <span class="type">Box</span>::<span class="title function_ invoke__">from_raw</span>(ptr)</span><br><span class="line">    &#125;;</span><br><span class="line">    ret.b = <span class="title function_ invoke__">Some</span>(<span class="string">&quot;hello&quot;</span>.<span class="title function_ invoke__">to_owned</span>());</span><br><span class="line">    ret</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line">    <span class="keyword">use</span> std::time::Instant;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">test_success</span>() &#123;</span><br><span class="line">        <span class="keyword">let</span> <span class="variable">data</span> = <span class="type">Box</span>::<span class="title function_ invoke__">new</span>(Foo &#123; a: <span class="number">1</span>, b: <span class="literal">None</span> &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">ptr_1</span> = &amp;data.a <span class="keyword">as</span> *<span class="keyword">const</span> <span class="type">u128</span> <span class="keyword">as</span> <span class="type">usize</span>;</span><br><span class="line">        <span class="comment">// SAFETY: We pass an owned box of `Foo`.</span></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">ret</span> = <span class="keyword">unsafe</span> &#123; <span class="title function_ invoke__">raw_pointer_to_box</span>(<span class="type">Box</span>::<span class="title function_ invoke__">into_raw</span>(data)) &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> <span class="variable">ptr_2</span> = &amp;ret.a <span class="keyword">as</span> *<span class="keyword">const</span> <span class="type">u128</span> <span class="keyword">as</span> <span class="type">usize</span>;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">assert!</span>(ptr_1 == ptr_2);</span><br><span class="line">        <span class="built_in">assert!</span>(ret.b == <span class="title function_ invoke__">Some</span>(<span class="string">&quot;hello&quot;</span>.<span class="title function_ invoke__">to_owned</span>()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Build-rs中配置环境变量"><a href="#Build-rs中配置环境变量" class="headerlink" title="Build.rs中配置环境变量"></a>Build.rs中配置环境变量</h2><figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// In tests7, we should set up an environment variable</span></span><br><span class="line">    <span class="comment">// called `TEST_FOO`. Print in the standard output to let</span></span><br><span class="line">    <span class="comment">// Cargo do it.</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">timestamp</span> = std::time::SystemTime::<span class="title function_ invoke__">now</span>()</span><br><span class="line">        .<span class="title function_ invoke__">duration_since</span>(std::time::UNIX_EPOCH)</span><br><span class="line">        .<span class="title function_ invoke__">unwrap</span>()</span><br><span class="line">        .<span class="title function_ invoke__">as_secs</span>(); <span class="comment">// What&#x27;s the use of this timestamp here?</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// let your_command = format!(</span></span><br><span class="line">    <span class="comment">//     &quot;Your command here with &#123;&#125;, please checkout exercises/tests/build.rs&quot;,</span></span><br><span class="line">    <span class="comment">//     timestamp</span></span><br><span class="line">    <span class="comment">// );</span></span><br><span class="line">    <span class="comment">// println!(&quot;cargo:&#123;&#125;&quot;, your_command);</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:rustc-env=TEST_FOO=&#123;&#125;&quot;</span>, timestamp);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// In tests8, we should enable &quot;pass&quot; feature to make the</span></span><br><span class="line">    <span class="comment">// testcase return early. Fill in the command to tell</span></span><br><span class="line">    <span class="comment">// cargo about that.</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">your_command</span> = <span class="string">&quot;rustc-cfg=feature=\&quot;pass\&quot;&quot;</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cargo:&#123;&#125;&quot;</span>, your_command);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="extern关键字"><a href="#extern关键字" class="headerlink" title="extern关键字"></a>extern关键字</h2><p>#[link_name&#x3D;””]使得第二个函数成为第一个函数的别名。<br>#[no_mangle]no_mangle属性防止Rust编译器改变函数名，确保它在编译后的二进制文件中保持原名。  </p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="string">&quot;Rust&quot;</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">my_demo_function</span>(a: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span>;</span><br><span class="line">    <span class="meta">#[link_name = <span class="string">&quot;my_demo_function&quot;</span>]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">my_demo_function_alias</span>(a: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">mod</span> Foo &#123;</span><br><span class="line">    <span class="comment">// `no_extern` equals `extern &quot;Rust&quot;`.</span></span><br><span class="line">    <span class="meta">#[no_mangle]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">my_demo_function</span>(a: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;</span><br><span class="line">        a</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#[cfg(test)]</span></span><br><span class="line"><span class="keyword">mod</span> tests &#123;</span><br><span class="line">    <span class="keyword">use</span> super::*;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#[test]</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">test_success</span>() &#123;</span><br><span class="line">        <span class="comment">// The externally imported functions are UNSAFE by default</span></span><br><span class="line">        <span class="comment">// because of untrusted source of other languages. You may</span></span><br><span class="line">        <span class="comment">// wrap them in safe Rust APIs to ease the burden of callers.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">// SAFETY: We know those functions are aliases of a safe</span></span><br><span class="line">        <span class="comment">// Rust function.</span></span><br><span class="line">        <span class="keyword">unsafe</span> &#123;</span><br><span class="line">            <span class="title function_ invoke__">my_demo_function</span>(<span class="number">123</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/images/banner.webp" data-sizes="auto" alt="Vert.x" class="lazyload">
+        
+      
+      <a href="/2024/12/05/vert.x/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          Vert.x
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rust%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">rust简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rust%E5%8F%98%E9%87%8F%E5%80%BC%E4%B8%8D%E5%8F%AF%E8%A2%AB%E4%BF%AE%E6%94%B9"><span class="toc-number">1.2.</span> <span class="toc-text">rust变量值不可被修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E4%B8%89%E7%A7%8D%E5%A3%B0%E6%98%8E%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">结构体的三种声明方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rust%E7%89%B9%E6%9C%89%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.</span> <span class="toc-text">rust特有的所有权概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">引用与借用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.6.</span> <span class="toc-text">两种字符串类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Option"><span class="toc-number">1.7.</span> <span class="toc-text">Option</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D"><span class="toc-number">1.8.</span> <span class="toc-text">模式匹配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8Fref%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.9.</span> <span class="toc-text">注意ref和&amp;的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Box%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%A0%86%E6%A0%88%E4%B8%8A%E6%95%B0%E6%8D%AE%E6%89%80%E6%9C%89%E6%9D%83%E8%BD%AC%E7%A7%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.10.</span> <span class="toc-text">Box智能指针学习以及堆栈上数据所有权转移的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%EF%BC%88trait%EF%BC%89"><span class="toc-number">1.11.</span> <span class="toc-text">特征（trait）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8BGenerics"><span class="toc-number">1.12.</span> <span class="toc-text">泛型Generics</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lifetime%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.13.</span> <span class="toc-text">lifetime生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">1.14.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%EF%BC%88%E5%A4%AA%E5%A4%9A%E4%BA%86%E5%A5%BD%E9%9A%BE%E7%90%86%E8%A7%A3%EF%BC%89"><span class="toc-number">1.15.</span> <span class="toc-text">其他的智能指针（太多了好难理解）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%89%80%E6%9C%89%E6%9D%83%E5%86%B2%E7%AA%81%E4%B8%8E%E5%A4%8D%E5%88%B6"><span class="toc-number">1.16.</span> <span class="toc-text">关于所有权冲突与复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E5%AE%8F%E7%9A%84%E4%B8%96%E7%95%8C"><span class="toc-number">1.17.</span> <span class="toc-text">欢迎来到宏的世界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E7%BB%BC%E5%90%88%E7%9A%84%E4%B8%9C%E8%A5%BF%EF%BC%88%E8%87%AA%E8%AE%A4%E4%B8%BA%E9%80%BB%E8%BE%91%E5%BE%88%E5%B7%A7%E5%A6%99%EF%BC%89"><span class="toc-number">1.18.</span> <span class="toc-text">一些综合的东西（自认为逻辑很巧妙）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unsafe"><span class="toc-number">1.19.</span> <span class="toc-text">Unsafe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%8A%A0%E6%B7%B1%E5%AF%B9%E8%A3%B8%E6%8C%87%E9%92%88%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">1.20.</span> <span class="toc-text">在项目中加深对裸指针的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Box%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E4%B8%8E%E8%A3%B8%E6%8C%87%E9%92%88%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.21.</span> <span class="toc-text">Box智能指针与裸指针之间的转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-rs%E4%B8%AD%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.22.</span> <span class="toc-text">Build.rs中配置环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#extern%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.23.</span> <span class="toc-text">extern关键字</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="John Doe" class="lazyload">
+  <div class="sidebar-author-name">John Doe</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">3</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep rotate"></span>
+      John Doe
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        10k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        00:35
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#rust%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">rust简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rust%E5%8F%98%E9%87%8F%E5%80%BC%E4%B8%8D%E5%8F%AF%E8%A2%AB%E4%BF%AE%E6%94%B9"><span class="toc-number">1.2.</span> <span class="toc-text">rust变量值不可被修改</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E7%9A%84%E4%B8%89%E7%A7%8D%E5%A3%B0%E6%98%8E%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">结构体的三种声明方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rust%E7%89%B9%E6%9C%89%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.</span> <span class="toc-text">rust特有的所有权概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">引用与借用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E7%A7%8D%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.6.</span> <span class="toc-text">两种字符串类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Option"><span class="toc-number">1.7.</span> <span class="toc-text">Option</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D"><span class="toc-number">1.8.</span> <span class="toc-text">模式匹配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8Fref%E5%92%8C-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.9.</span> <span class="toc-text">注意ref和&amp;的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Box%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%AD%A6%E4%B9%A0%E4%BB%A5%E5%8F%8A%E5%A0%86%E6%A0%88%E4%B8%8A%E6%95%B0%E6%8D%AE%E6%89%80%E6%9C%89%E6%9D%83%E8%BD%AC%E7%A7%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.10.</span> <span class="toc-text">Box智能指针学习以及堆栈上数据所有权转移的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E5%BE%81%EF%BC%88trait%EF%BC%89"><span class="toc-number">1.11.</span> <span class="toc-text">特征（trait）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8BGenerics"><span class="toc-number">1.12.</span> <span class="toc-text">泛型Generics</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lifetime%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="toc-number">1.13.</span> <span class="toc-text">lifetime生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">1.14.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%EF%BC%88%E5%A4%AA%E5%A4%9A%E4%BA%86%E5%A5%BD%E9%9A%BE%E7%90%86%E8%A7%A3%EF%BC%89"><span class="toc-number">1.15.</span> <span class="toc-text">其他的智能指针（太多了好难理解）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E6%89%80%E6%9C%89%E6%9D%83%E5%86%B2%E7%AA%81%E4%B8%8E%E5%A4%8D%E5%88%B6"><span class="toc-number">1.16.</span> <span class="toc-text">关于所有权冲突与复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E5%AE%8F%E7%9A%84%E4%B8%96%E7%95%8C"><span class="toc-number">1.17.</span> <span class="toc-text">欢迎来到宏的世界</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E7%BB%BC%E5%90%88%E7%9A%84%E4%B8%9C%E8%A5%BF%EF%BC%88%E8%87%AA%E8%AE%A4%E4%B8%BA%E9%80%BB%E8%BE%91%E5%BE%88%E5%B7%A7%E5%A6%99%EF%BC%89"><span class="toc-number">1.18.</span> <span class="toc-text">一些综合的东西（自认为逻辑很巧妙）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Unsafe"><span class="toc-number">1.19.</span> <span class="toc-text">Unsafe</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%8A%A0%E6%B7%B1%E5%AF%B9%E8%A3%B8%E6%8C%87%E9%92%88%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-number">1.20.</span> <span class="toc-text">在项目中加深对裸指针的理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Box%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E4%B8%8E%E8%A3%B8%E6%8C%87%E9%92%88%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.21.</span> <span class="toc-text">Box智能指针与裸指针之间的转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Build-rs%E4%B8%AD%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">1.22.</span> <span class="toc-text">Build.rs中配置环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#extern%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.23.</span> <span class="toc-text">extern关键字</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="John Doe" class="lazyload">
+  <div class="sidebar-author-name">John Doe</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">3</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+    
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.6/dist/index.umd.js" integrity="sha384-vkGvf25gm1C1PbcoD5dNfc137HzNL&#x2F;hr1RKA5HniJOaawtvUmH5lTVFgFAruE9Ge" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+
+
+
+
+
+
+
+
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.0.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+  </body>
+  </html>
+
