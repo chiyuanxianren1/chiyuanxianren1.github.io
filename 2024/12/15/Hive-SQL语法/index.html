@@ -1,0 +1,1099 @@
+
+  <!DOCTYPE html>
+  <html lang="en"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.REIMU_CONFIG = {};window.REIMU_CONFIG.icon_font = '4552607_tq6stt6tcg';window.REIMU_CONFIG.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    Hive SQL 语法 |
+    
+    Hexo
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="Hive SQL 语法基于语法描述说明123CREATE DATABASE [IF NOT EXISTS] db_name [LOCATION] &#x27;path&#x27;;SELECT expr, ... FROM tbl ORDER BY col_name [ASC | DESC](A | B | C)  如上语法，在语法描述中出现：  []，表示可选，如上[LOCATION] 表示可写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive SQL 语法">
+<meta property="og:url" content="https://chiyuanxianren1.github.io/2024/12/15/Hive-SQL%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Hive SQL 语法基于语法描述说明123CREATE DATABASE [IF NOT EXISTS] db_name [LOCATION] &#x27;path&#x27;;SELECT expr, ... FROM tbl ORDER BY col_name [ASC | DESC](A | B | C)  如上语法，在语法描述中出现：  []，表示可选，如上[LOCATION] 表示可写">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://image-set.oss-cn-zhangjiakou.aliyuncs.com/img-out/2023/02/24/20230224234706.png">
+<meta property="og:image" content="https://image-set.oss-cn-zhangjiakou.aliyuncs.com/img-out/2023/02/24/20230224234719.png">
+<meta property="og:image" content="https://image-set.oss-cn-zhangjiakou.aliyuncs.com/img-out/2023/02/24/20230224234733.png">
+<meta property="article:published_time" content="2024-12-15T07:48:13.000Z">
+<meta property="article:modified_time" content="2024-12-15T07:48:40.118Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image-set.oss-cn-zhangjiakou.aliyuncs.com/img-out/2023/02/24/20230224234706.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js" integrity="sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8" crossorigin="anonymous"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.1.0/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        
+          <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+            <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="var(--red-1, #ff5252)" />
+            <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+           M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="var(--red-1, #ff5252)" />
+          </svg>
+        
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/">Home</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/archives">Archives</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/about">About</a>
+        </span>
+      
+        <span class="main-nav-link-wrap">
+          <div class="main-nav-icon icon rotate">
+            &#xe62b;
+          </div>
+          <a class="main-nav-link" href="/friend">Friend</a>
+        </span>
+      
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="Hive SQL 语法">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Hive SQL 语法</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-Hive-SQL语法" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/12/15/Hive-SQL%E8%AF%AD%E6%B3%95/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-12-15T07:48:13.000Z" itemprop="datePublished">2024-12-15</time>
+    <time style="display: none;" id="post-update-time">2024-12-15</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="Hive-SQL-语法"><a href="#Hive-SQL-语法" class="headerlink" title="Hive SQL 语法"></a>Hive SQL 语法</h1><h2 id="基于语法描述说明"><a href="#基于语法描述说明" class="headerlink" title="基于语法描述说明"></a>基于语法描述说明</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE [IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>] db_name [LOCATION] <span class="string">&#x27;path&#x27;</span>;</span><br><span class="line"><span class="keyword">SELECT</span> expr, ... <span class="keyword">FROM</span> tbl <span class="keyword">ORDER</span> <span class="keyword">BY</span> col_name [<span class="keyword">ASC</span> <span class="operator">|</span> <span class="keyword">DESC</span>]</span><br><span class="line">(A <span class="operator">|</span> B <span class="operator">|</span> C)</span><br></pre></td></tr></table></figure>
+
+<p>如上语法，在语法描述中出现：</p>
+<ul>
+<li><p><code>[]</code>，表示可选，如上<code>[LOCATION] </code>表示可写、可不写</p>
+</li>
+<li><p><code>|</code>，表示或，如上<code>ASC | DESC</code>，表示二选一</p>
+</li>
+<li><p>…，表示序列，即未完结，如上<code>SELECT expr, ...</code> 表示在SELECT后可以跟多个<code>expr（查询表达式）</code>，以逗号隔开</p>
+</li>
+<li><p><code>()</code>，表示必填，如上(A | B | C)表示此处必填，填入内容在A、B、C中三选一</p>
+</li>
+</ul>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE [IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span>] db_name [LOCATION <span class="string">&#x27;path&#x27;</span>] [COMMENT database_comment];</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>IF NOT EXISTS</code>，如存在同名数据库<code>不执行任何操作</code>，否则<code>执行创建数据库</code>操作</p>
+</li>
+<li><p><code>[LOCATION]</code>，自定义数据库存储位置，<code>如不填写</code>，默认数据库在HDFS的路径为：<code>/user/hive/warehouse</code></p>
+</li>
+<li><p><code>[COMMENT database_comment]</code>，可选，数据库注释</p>
+</li>
+</ul>
+<h3 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> DATABASE [IF <span class="keyword">EXISTS</span>] db_name [CASCADE];</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>[IF EXISTS]</code>，可选，如果存在此数据库执行删除，不存在不执行任何操作</li>
+<li><code>[CASCADE]</code>，可选，级联删除，即数据库内存在表，使用CASCADE可以强制删除数据库</li>
+</ul>
+<h3 id="数据库修改LOCATION"><a href="#数据库修改LOCATION" class="headerlink" title="数据库修改LOCATION"></a>数据库修改LOCATION</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> DATABASE database_name <span class="keyword">SET</span> LOCATION hdfs_path;</span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;不会在HDFS对数据库所在目录进行改名，只是修改location后，新创建的表在新的路径，旧的不变&#x3D;&#x3D;</p>
+<h3 id="选择数据库"><a href="#选择数据库" class="headerlink" title="选择数据库"></a>选择数据库</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE db_name;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>选择数据库后，后续<code>SQL</code>操作基于当前选择的库执行</li>
+<li>如不使用use，默认在<code>default</code>库执行</li>
+</ul>
+<p><strong>若想切换回使用default库</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USE <span class="keyword">DEFAULT</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>查询当前USE的数据库</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> current_database();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="表操作"><a href="#表操作" class="headerlink" title="表操作"></a>表操作</h2><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><table>
+<thead>
+<tr>
+<th><strong>分类</strong></th>
+<th><strong>类型</strong></th>
+<th><strong>描述</strong></th>
+<th><strong>字面量示例</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>原始类型</td>
+<td>BOOLEAN</td>
+<td>true&#x2F;false</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td></td>
+<td>TINYINT</td>
+<td>1字节的有符号整数 -128~127</td>
+<td>1Y</td>
+</tr>
+<tr>
+<td></td>
+<td>SMALLINT</td>
+<td>2个字节的有符号整数，-32768~32767</td>
+<td>1S</td>
+</tr>
+<tr>
+<td></td>
+<td>INT</td>
+<td>4个字节的带符号整数</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td>BIGINT</td>
+<td>8字节带符号整数</td>
+<td>1L</td>
+</tr>
+<tr>
+<td></td>
+<td>FLOAT</td>
+<td>4字节单精度浮点数1.0</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>DOUBLE</td>
+<td>8字节双精度浮点数</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td></td>
+<td>DEICIMAL</td>
+<td>任意精度的带符号小数</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td></td>
+<td>STRING</td>
+<td>字符串，变长</td>
+<td>“a”,’b’</td>
+</tr>
+<tr>
+<td></td>
+<td>VARCHAR</td>
+<td>变长字符串</td>
+<td>“a”,’b’</td>
+</tr>
+<tr>
+<td></td>
+<td>CHAR</td>
+<td>固定长度字符串</td>
+<td>“a”,’b’</td>
+</tr>
+<tr>
+<td></td>
+<td>BINARY</td>
+<td>字节数组</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>TIMESTAMP</td>
+<td>时间戳，毫秒值精度</td>
+<td>122327493795</td>
+</tr>
+<tr>
+<td></td>
+<td>DATE</td>
+<td>日期</td>
+<td>‘2016-03-29’</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>时间频率间隔</td>
+<td></td>
+</tr>
+<tr>
+<td>复杂类型</td>
+<td>ARRAY</td>
+<td>有序的的同类型的集合</td>
+<td>array(1,2)</td>
+</tr>
+<tr>
+<td></td>
+<td>MAP</td>
+<td>key-value,key必须为原始类型，value可以任意类型</td>
+<td>map(‘a’,1,’b’,2)</td>
+</tr>
+<tr>
+<td></td>
+<td>STRUCT</td>
+<td>字段集合,类型可以不同</td>
+<td>struct(‘1’,1,1.0), named_stract(‘col1’,’1’,’col2’,1,’clo3’,1.0)</td>
+</tr>
+<tr>
+<td></td>
+<td>UNION</td>
+<td>在有限取值范围内的一个值</td>
+<td>create_union(1,’a’,63)</td>
+</tr>
+</tbody></table>
+<h3 id="基础建表"><a href="#基础建表" class="headerlink" title="基础建表"></a>基础建表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> [<span class="keyword">EXTERNAL</span>] <span class="keyword">TABLE</span> tb_name</span><br><span class="line">	(col_name col_type [COMMENT col_comment], ......)</span><br><span class="line">	[COMMENT tb_comment]</span><br><span class="line">	[PARTITIONED <span class="keyword">BY</span>(col_name, col_type, ......)]</span><br><span class="line">	[CLUSTERED <span class="keyword">BY</span>(col_name, col_type, ......) <span class="keyword">INTO</span> num BUCKETS]</span><br><span class="line">	[<span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;&#x27;</span>]</span><br><span class="line">	[LOCATION <span class="string">&#x27;path&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>[EXTERNAL]</code>，外部表，需搭配</p>
+<ul>
+<li><p><code>[ROW FORMAT DELIMITED FIELDS TERMINATED BY &#39;&#39;]</code>指定列分隔符</p>
+</li>
+<li><p><code>[LOCATION &#39;path&#39;]</code>表数据路径</p>
+</li>
+<li><p>外部表示意</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EXTERNAL</span> <span class="keyword">TABLE</span> test_ext(id <span class="type">int</span>) COMMENT <span class="string">&#x27;external table&#x27;</span> <span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span> LOCATION <span class="string">&#x27;hdfs://node1:8020/tmp/test_ext&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><code>[COMMENT tb_comment]</code>表注释，可选</p>
+</li>
+<li><p><code>[PARTITIONED BY(col_name, col_type, ......)]</code>基于列分区</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 分区表示意</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> test_ext(id <span class="type">int</span>) COMMENT <span class="string">&#x27;partitioned table&#x27;</span> <span class="keyword">PARTITION</span> <span class="keyword">BY</span>(<span class="keyword">year</span> string, <span class="keyword">month</span> string, <span class="keyword">day</span> string) <span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>[CLUSTERED BY(col_name, col_type, ......)]</code>基于列分桶</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> course (c_id string,c_name string,t_id string) CLUSTERED <span class="keyword">BY</span>(c_id) <span class="keyword">INTO</span> <span class="number">3</span> BUCKETS <span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="基于其它表的结构建表"><a href="#基于其它表的结构建表" class="headerlink" title="基于其它表的结构建表"></a>基于其它表的结构建表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">LIKE</span> other_tbl;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="基于查询结果建表"><a href="#基于查询结果建表" class="headerlink" title="基于查询结果建表"></a>基于查询结果建表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> tbl_name <span class="keyword">AS</span> <span class="keyword">SELECT</span> ...;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> tbl;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="修改表"><a href="#修改表" class="headerlink" title="修改表"></a>修改表</h3><p><strong>重命名</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="keyword">old</span> RENAME <span class="keyword">TO</span> <span class="keyword">new</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>修改属性</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tbl <span class="keyword">SET</span> TBLPROPERTIES(key<span class="operator">=</span><span class="keyword">value</span>);</span><br><span class="line"><span class="comment">-- 常用属性</span></span><br><span class="line">(&quot;EXTERNAL&quot;<span class="operator">=</span>&quot;TRUE&quot;) <span class="comment">-- 内外部表，TRUE表示外部表</span></span><br><span class="line">(<span class="string">&#x27;comment&#x27;</span> <span class="operator">=</span> new_comment) <span class="comment">-- 修改表注释</span></span><br><span class="line"><span class="comment">-- 其余属性参见</span></span><br><span class="line">https:<span class="operator">/</span><span class="operator">/</span>cwiki.apache.org<span class="operator">/</span>confluence<span class="operator">/</span>display<span class="operator">/</span>Hive<span class="operator">/</span>LanguageManual<span class="operator">+</span>DDL#LanguageManualDDL<span class="operator">-</span>listTableProperties</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="分区操作"><a href="#分区操作" class="headerlink" title="分区操作"></a>分区操作</h3><p><strong>创建分区表</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 分区表示意</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> test_ext(id <span class="type">int</span>) COMMENT <span class="string">&#x27;partitioned table&#x27;</span> <span class="keyword">PARTITION</span> <span class="keyword">BY</span>(<span class="keyword">year</span> string, <span class="keyword">month</span> string, <span class="keyword">day</span> string) <span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>添加分区</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tablename <span class="keyword">ADD</span> <span class="keyword">PARTITION</span> (partition_key<span class="operator">=</span><span class="string">&#x27;partition_value&#x27;</span>, ......);</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>修改分区值</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tablename <span class="keyword">PARTITION</span> (partition_key<span class="operator">=</span><span class="string">&#x27;old_partition_value&#x27;</span>) RENAME <span class="keyword">TO</span> <span class="keyword">PARTITION</span> (partition_key<span class="operator">=</span><span class="string">&#x27;new_partition_value&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;注意&#x3D;&#x3D;</p>
+<p>只会在元数据中修改，不会同步修改HDFS路径吗，如：</p>
+<ul>
+<li>原分区路径为：<code>/user/hive/warehouse/test.db/test_table/month=201910</code>，分区名：<code>month=&#39;201910&#39;</code></li>
+<li>将分区名修改为：<code>201911</code>后，分区所在路径不变，依旧是：<code>/user/hive/warehouse/test.db/test_table/month=201910</code></li>
+</ul>
+<p>如果希望修改分区名后，同步修改HDFS的路径，并保证正常可用，需要：</p>
+<ul>
+<li>在元数据库中：<code>找到SDS表</code> -&gt; <code>找到LOCATION列</code> -&gt; <code>找到对应分区的路径记录进行修改</code><ul>
+<li>如将记录的：<code>/user/hive/warehouse/test.db/test_table/month=201910</code> 修改为：<code>/user/hive/warehouse/test.db/test_table/month=201911</code></li>
+</ul>
+</li>
+<li>在HDFS中，同步修改文件夹名<ul>
+<li>如将文件夹：<code>/user/hive/warehouse/test.db/test_table/month=201910</code> 修改为：<code>/user/hive/warehouse/test.db/test_table/month=201911</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>删除分区</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> tablename <span class="keyword">DROP</span> <span class="keyword">PARTITION</span> (partition_key<span class="operator">=</span><span class="string">&#x27;partition_value&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>删除分区后，只是在元数据中删除，即删除元数据库中：</p>
+<ul>
+<li><code>PARTITION</code>表</li>
+<li><code>SDS</code>表</li>
+</ul>
+<p>相关记录</p>
+<p>&#x3D;&#x3D;分区所在的HDFS文件夹依旧保留&#x3D;&#x3D;</p>
+</blockquote>
+<p><strong>加载数据</strong></p>
+<p>LOAD DATA</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA [<span class="keyword">LOCAL</span>] INPATH <span class="string">&#x27;path&#x27;</span> <span class="keyword">INTO</span> <span class="keyword">TABLE</span> tbl <span class="keyword">PARTITION</span>(partition_key<span class="operator">=</span><span class="string">&#x27;partition_value&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>INSERT SELECT</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> (OVERWRITE <span class="operator">|</span> <span class="keyword">INTO</span>) <span class="keyword">TABLE</span> tbl <span class="keyword">PARTITION</span>(partition_key<span class="operator">=</span><span class="string">&#x27;partition_value&#x27;</span>) <span class="keyword">SELECT</span> ... <span class="keyword">FROM</span> ...;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="分桶操作"><a href="#分桶操作" class="headerlink" title="分桶操作"></a>分桶操作</h3><p><strong>建表</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> course (c_id string,c_name string,t_id string) </span><br><span class="line">	[<span class="keyword">PARTITION</span>(partition_key<span class="operator">=</span><span class="string">&#x27;partition_value&#x27;</span>)] </span><br><span class="line">	CLUSTERED <span class="keyword">BY</span>(c_id) <span class="keyword">INTO</span> <span class="number">3</span> BUCKETS <span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>CLUSTERED BY(col)</code> 指定分桶列</li>
+<li><code>INTO 3 BUCKETS</code>，设定3个桶</li>
+</ul>
+<blockquote>
+<p>分桶表需要开启：</p>
+<p><code>set hive.enforce.bucketing=true;</code></p>
+<p>设置自动匹配桶数量的reduces task数量</p>
+</blockquote>
+<p><strong>数据加载</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> (OVERWRITE <span class="operator">|</span> <span class="keyword">INTO</span>) <span class="keyword">TABLE</span> tbl </span><br><span class="line">	[<span class="keyword">PARTITION</span>(partition_key<span class="operator">=</span><span class="string">&#x27;partition_value&#x27;</span>)] </span><br><span class="line">	<span class="keyword">SELECT</span> ... <span class="keyword">FROM</span> ... CLUSTER <span class="keyword">BY</span>(col);</span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;分桶表无法使用LOAD DATA进行数据加载&#x3D;&#x3D;</p>
+<h3 id="数据加载"><a href="#数据加载" class="headerlink" title="数据加载"></a>数据加载</h3><p><strong>LOAD DATA</strong></p>
+<p>将数据文件加载到表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA [<span class="keyword">LOCAL</span>] INPATH <span class="string">&#x27;path&#x27;</span> <span class="keyword">INTO</span> <span class="keyword">TABLE</span> tbl [<span class="keyword">PARTITION</span>(partition_key<span class="operator">=</span><span class="string">&#x27;partition_value&#x27;</span>)];	<span class="comment">-- 指定分区可选</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>INSERT SELECT</strong></p>
+<p>将其它表数据，加载到目标表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> (OVERWRITE <span class="operator">|</span> <span class="keyword">INTO</span>) <span class="keyword">TABLE</span> tbl </span><br><span class="line">	[<span class="keyword">PARTITION</span>(partition_key<span class="operator">=</span><span class="string">&#x27;partition_value&#x27;</span>)] 		<span class="comment">-- 指定分区，可选</span></span><br><span class="line">	<span class="keyword">SELECT</span> ... <span class="keyword">FROM</span> ... [CLUSTER <span class="keyword">BY</span>(col)];				<span class="comment">-- 指定分桶列，可选</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="数据导出"><a href="#数据导出" class="headerlink" title="数据导出"></a>数据导出</h3><p><strong>INSERT OVERWRITE SELECT</strong></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> OVERWRITE [<span class="keyword">LOCAL</span>] DIRECTORY ‘path’ 				<span class="comment">-- LOCAL可选，带LOCAL导出Linux本地，不带LOCAL导出到HDFS</span></span><br><span class="line">	[<span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;&#x27;</span>]		<span class="comment">-- 可选，自定义列分隔符</span></span><br><span class="line">	<span class="keyword">SELECT</span> ... <span class="keyword">FROM</span> ...;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>bin&#x2F;hive</strong></p>
+<ul>
+<li><code>bin/hive -e &#39;sql&#39; &gt; export_file</code> 将<code>sql</code>结果重定向到导出文件中</li>
+<li><code>bin/hive -f &#39;sql_script_file&#39; &gt; export_file</code> 将<code>sql脚本</code>执行的结果重定向到导出文件中</li>
+</ul>
+<h3 id="复杂类型"><a href="#复杂类型" class="headerlink" title="复杂类型"></a>复杂类型</h3><table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th><strong>定义</strong></th>
+<th><strong>示例</strong></th>
+<th><strong>内含元素类型</strong></th>
+<th><strong>元素个数</strong></th>
+<th><strong>取元素</strong></th>
+<th><strong>可用函数</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>array</td>
+<td>array&lt;类型&gt;</td>
+<td>如定义为array<int>数据为：1,2,3,4,5</int></td>
+<td>单值，类型取决于定义</td>
+<td>动态，不限制</td>
+<td>array[数字序号] 序号从0开始</td>
+<td>size统计元素个数 array_contains判断是否包含指定数据</td>
+</tr>
+<tr>
+<td>map</td>
+<td>map&lt;key类型, value类型&gt;</td>
+<td>如定义为：map&lt;string, int&gt;数据为：{’a’: 1, ‘b’: 2, ‘c’: 3}</td>
+<td>键值对，K-V，K和V类型取决于定义</td>
+<td>动态，不限制</td>
+<td>map[key] 取出对应key的value</td>
+<td>size统计元素个数array_contains判断是否包含指定数据 map_keys取出全部key，返回array map_values取出全部values，返回array</td>
+</tr>
+<tr>
+<td>struct</td>
+<td>struct&lt;子列名 类型, 子列名 类型…&gt;</td>
+<td>如定义为：struct&lt;c1 string, c2 int, c3 date&gt;数据为：’a’, 1, ‘2000-01-01’</td>
+<td>单值，类型取决于定义</td>
+<td>固定，取决于定义的子列数量</td>
+<td>struct.子列名 通过子列名取出子列值</td>
+<td>暂无</td>
+</tr>
+</tbody></table>
+<h2 id="数据查询的课堂SQL记录"><a href="#数据查询的课堂SQL记录" class="headerlink" title="数据查询的课堂SQL记录"></a>数据查询的课堂SQL记录</h2><h3 id="基本查询"><a href="#基本查询" class="headerlink" title="基本查询"></a>基本查询</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database itheima;</span><br><span class="line">use itheima;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> itheima.orders (</span><br><span class="line">    orderId <span class="type">bigint</span> COMMENT <span class="string">&#x27;订单id&#x27;</span>,</span><br><span class="line">    orderNo string COMMENT <span class="string">&#x27;订单编号&#x27;</span>,</span><br><span class="line">    shopId <span class="type">bigint</span> COMMENT <span class="string">&#x27;门店id&#x27;</span>,</span><br><span class="line">    userId <span class="type">bigint</span> COMMENT <span class="string">&#x27;用户id&#x27;</span>,</span><br><span class="line">    orderStatus tinyint COMMENT <span class="string">&#x27;订单状态 -3:用户拒收 -2:未付款的订单 -1：用户取消 0:待发货 1:配送中 2:用户确认收货&#x27;</span>,</span><br><span class="line">    goodsMoney <span class="keyword">double</span> COMMENT <span class="string">&#x27;商品金额&#x27;</span>,</span><br><span class="line">    deliverMoney <span class="keyword">double</span> COMMENT <span class="string">&#x27;运费&#x27;</span>,</span><br><span class="line">    totalMoney <span class="keyword">double</span> COMMENT <span class="string">&#x27;订单金额（包括运费）&#x27;</span>,</span><br><span class="line">    realTotalMoney <span class="keyword">double</span> COMMENT <span class="string">&#x27;实际订单金额（折扣后金额）&#x27;</span>,</span><br><span class="line">    payType tinyint COMMENT <span class="string">&#x27;支付方式,0:未知;1:支付宝，2：微信;3、现金；4、其他&#x27;</span>,</span><br><span class="line">    isPay tinyint COMMENT <span class="string">&#x27;是否支付 0:未支付 1:已支付&#x27;</span>,</span><br><span class="line">    userName string COMMENT <span class="string">&#x27;收件人姓名&#x27;</span>,</span><br><span class="line">    userAddress string COMMENT <span class="string">&#x27;收件人地址&#x27;</span>,</span><br><span class="line">    userPhone string COMMENT <span class="string">&#x27;收件人电话&#x27;</span>,</span><br><span class="line">    createTime <span class="type">timestamp</span> COMMENT <span class="string">&#x27;下单时间&#x27;</span>,</span><br><span class="line">    payTime <span class="type">timestamp</span> COMMENT <span class="string">&#x27;支付时间&#x27;</span>,</span><br><span class="line">    totalPayFee <span class="type">int</span> COMMENT <span class="string">&#x27;总支付金额&#x27;</span></span><br><span class="line">) <span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>;</span><br><span class="line"></span><br><span class="line">load data <span class="keyword">local</span> inpath <span class="string">&#x27;/home/hadoop/itheima_orders.txt&#x27;</span> <span class="keyword">into</span> <span class="keyword">table</span> itheima.orders;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> itheima.users (</span><br><span class="line">    userId <span class="type">int</span>,</span><br><span class="line">    loginName string,</span><br><span class="line">    loginSecret <span class="type">int</span>,</span><br><span class="line">    loginPwd string,</span><br><span class="line">    userSex tinyint,</span><br><span class="line">    userName string,</span><br><span class="line">    trueName string,</span><br><span class="line">    brithday <span class="type">date</span>,</span><br><span class="line">    userPhoto string,</span><br><span class="line">    userQQ string,</span><br><span class="line">    userPhone string,</span><br><span class="line">    userScore <span class="type">int</span>,</span><br><span class="line">    userTotalScore <span class="type">int</span>,</span><br><span class="line">    userFrom tinyint,</span><br><span class="line">    userMoney <span class="keyword">double</span>,</span><br><span class="line">    lockMoney <span class="keyword">double</span>,</span><br><span class="line">    createTime <span class="type">timestamp</span>,</span><br><span class="line">    payPwd string,</span><br><span class="line">    rechargeMoney <span class="keyword">double</span></span><br><span class="line">) <span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>;</span><br><span class="line"></span><br><span class="line">load data <span class="keyword">local</span> inpath <span class="string">&#x27;/home/hadoop/itheima_users.txt&#x27;</span> <span class="keyword">into</span> <span class="keyword">table</span> itheima.users;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询全表数据</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.orders;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询单列信息</span></span><br><span class="line"><span class="keyword">SELECT</span> orderid, userid, totalmoney <span class="keyword">FROM</span> itheima.orders o ;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查询表有多少条数据</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> itheima.orders;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 过滤广东省的订单</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.orders <span class="keyword">WHERE</span> useraddress <span class="keyword">LIKE</span> <span class="string">&#x27;%广东%&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 找出广东省单笔营业额最大的订单</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.orders <span class="keyword">WHERE</span> useraddress <span class="keyword">LIKE</span> <span class="string">&#x27;%广东%&#x27;</span></span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> totalmoney <span class="keyword">DESC</span> LIMIT <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 统计未支付、已支付各自的人数</span></span><br><span class="line"><span class="keyword">SELECT</span> ispay, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> itheima.orders o <span class="keyword">GROUP</span> <span class="keyword">BY</span> ispay ;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 在已付款的订单中，统计每个用户最高的一笔消费金额</span></span><br><span class="line"><span class="keyword">SELECT</span> userid, <span class="built_in">MAX</span>(totalmoney) <span class="keyword">FROM</span> itheima.orders <span class="keyword">WHERE</span> ispay <span class="operator">=</span> <span class="number">1</span> <span class="keyword">GROUP</span> <span class="keyword">BY</span> userid;</span><br><span class="line"><span class="comment">-- 统计每个用户的平均订单消费额</span></span><br><span class="line"><span class="keyword">SELECT</span> userid, <span class="built_in">AVG</span>(totalmoney) <span class="keyword">FROM</span> itheima.orders <span class="keyword">GROUP</span> <span class="keyword">BY</span> userid;</span><br><span class="line"><span class="comment">-- 统计每个用户的平均订单消费额，并过滤大于10000的数据</span></span><br><span class="line"><span class="keyword">SELECT</span> userid, <span class="built_in">AVG</span>(totalmoney) <span class="keyword">AS</span> avg_money <span class="keyword">FROM</span> itheima.orders <span class="keyword">GROUP</span> <span class="keyword">BY</span> userid <span class="keyword">HAVING</span> avg_money <span class="operator">&gt;</span> <span class="number">10000</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 订单表和用户表JOIN 找出用户username</span></span><br><span class="line"><span class="keyword">SELECT</span> o.orderid, o.userid, u.username <span class="keyword">FROM</span> itheima.orders o <span class="keyword">JOIN</span> itheima.users u <span class="keyword">ON</span> o.userid <span class="operator">=</span> u.userid;</span><br><span class="line"><span class="keyword">SELECT</span> o.orderid, o.userid, u.username <span class="keyword">FROM</span> itheima.orders o <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> itheima.users u <span class="keyword">ON</span> o.userid <span class="operator">=</span> u.userid;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="RLIKE"><a href="#RLIKE" class="headerlink" title="RLIKE"></a>RLIKE</h3><p><img src="https://image-set.oss-cn-zhangjiakou.aliyuncs.com/img-out/2023/02/24/20230224234706.png" alt="image-20230224234706719"></p>
+<p><img src="https://image-set.oss-cn-zhangjiakou.aliyuncs.com/img-out/2023/02/24/20230224234719.png" alt="image-20230224234719463"></p>
+<p><img src="https://image-set.oss-cn-zhangjiakou.aliyuncs.com/img-out/2023/02/24/20230224234733.png" alt="image-20230224234733895"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查找广东省数据</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.orders <span class="keyword">WHERE</span> useraddress RLIKE <span class="string">&#x27;.*广东.*&#x27;</span>;</span><br><span class="line"><span class="comment">-- 查找用户地址是：xx省 xx市 xx区</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.orders <span class="keyword">WHERE</span> useraddress RLIKE <span class="string">&#x27;..省 ..市 ..区&#x27;</span>;</span><br><span class="line"><span class="comment">-- 查找用户姓为：张、王、邓</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.orders <span class="keyword">WHERE</span> username RLIKE <span class="string">&#x27;[张王邓]\\S+&#x27;</span>;</span><br><span class="line"><span class="comment">-- 查找手机号符合：188****0*** 规则</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.orders <span class="keyword">WHERE</span> userphone RLIKE <span class="string">&#x27;188\\S&#123;4&#125;0[0-9]&#123;3&#125;&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="UNION联合"><a href="#UNION联合" class="headerlink" title="UNION联合"></a>UNION联合</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> itheima.course(</span><br><span class="line">c_id string, </span><br><span class="line">c_name string, </span><br><span class="line">t_id string)</span><br><span class="line"><span class="type">ROW</span> FORMAT DELIMITED FIELDS TERMINATED <span class="keyword">BY</span> <span class="string">&#x27;\t&#x27;</span>;</span><br><span class="line"></span><br><span class="line">LOAD DATA <span class="keyword">LOCAL</span> INPATH <span class="string">&#x27;/home/hadoop/course.txt&#x27;</span> <span class="keyword">INTO</span> <span class="keyword">TABLE</span> itheima.course;</span><br><span class="line"><span class="comment">-- 基础UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course <span class="keyword">WHERE</span> t_id <span class="operator">=</span> <span class="string">&#x27;周杰轮&#x27;</span></span><br><span class="line">	<span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course <span class="keyword">WHERE</span> t_id <span class="operator">=</span> <span class="string">&#x27;王力鸿&#x27;</span>;</span><br><span class="line"><span class="comment">-- 去重演示</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course</span><br><span class="line">	<span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course;</span><br><span class="line"><span class="comment">-- 不去重</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course</span><br><span class="line">	<span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course;</span><br><span class="line"><span class="comment">-- UNION写在FROM中 UNION写在子查询中</span></span><br><span class="line"><span class="keyword">SELECT</span> t_id, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> </span><br><span class="line">(</span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course <span class="keyword">WHERE</span> t_id <span class="operator">=</span> <span class="string">&#x27;周杰轮&#x27;</span></span><br><span class="line">		<span class="keyword">UNION</span> <span class="keyword">ALL</span></span><br><span class="line">	<span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course <span class="keyword">WHERE</span> t_id <span class="operator">=</span> <span class="string">&#x27;王力鸿&#x27;</span> </span><br><span class="line">) <span class="keyword">AS</span> u <span class="keyword">GROUP</span> <span class="keyword">BY</span> t_id;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 用于INSERT SELECT</span></span><br><span class="line"><span class="keyword">INSERT</span> OVERWRITE <span class="keyword">TABLE</span> itheima.course2</span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course </span><br><span class="line">	<span class="keyword">UNION</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> itheima.course;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="Sampling采样"><a href="#Sampling采样" class="headerlink" title="Sampling采样"></a>Sampling采样</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"># 随机桶抽取， 分配桶是有规则的</span><br><span class="line"># 可以按照列的hash取模分桶</span><br><span class="line"># 按照完全随机分桶</span><br><span class="line"><span class="comment">-- 其它条件不变的话，每一次运行结果一致</span></span><br><span class="line"><span class="keyword">select</span> username, orderId, totalmoney <span class="keyword">FROM</span> itheima.orders </span><br><span class="line">	<span class="keyword">tablesample</span>(bucket <span class="number">3</span> <span class="keyword">out</span> <span class="keyword">of</span> <span class="number">10</span> <span class="keyword">on</span> username);</span><br><span class="line">	</span><br><span class="line"><span class="comment">-- 完全随机，每一次运行结果不同</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> itheima.orders </span><br><span class="line">	<span class="keyword">tablesample</span>(bucket <span class="number">3</span> <span class="keyword">out</span> <span class="keyword">of</span> <span class="number">10</span> <span class="keyword">on</span> rand());</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 数据块抽取，按顺序抽取，每次条件不变，抽取结果不变</span><br><span class="line"><span class="comment">-- 抽取100条</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> itheima.orders</span><br><span class="line">	<span class="keyword">tablesample</span>(<span class="number">100</span> <span class="keyword">rows</span>);</span><br><span class="line">	</span><br><span class="line"><span class="comment">-- 取1%数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> itheima.orders</span><br><span class="line">	<span class="keyword">tablesample</span>(<span class="number">1</span> <span class="keyword">percent</span>);</span><br><span class="line">	</span><br><span class="line"><span class="comment">-- 取 1KB数据</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> itheima.orders</span><br><span class="line">	<span class="keyword">tablesample</span>(<span class="number">1</span>K);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="虚拟列"><a href="#虚拟列" class="headerlink" title="虚拟列"></a>虚拟列</h3><p>虚拟列是Hive内置的可以在查询语句中使用的特殊标记，可以查询数据本身的详细参数。</p>
+<p>Hive目前可用3个虚拟列：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- INPUT__FILE__NAME，显示数据行所在的具体文件</span><br><span class="line">- BLOCK__OFFSET__INSIDE__FILE，显示数据行所在文件的偏移量</span><br><span class="line">- ROW__OFFSET__INSIDE__BLOCK，显示数据所在HDFS块的偏移量</span><br><span class="line">  此虚拟列需要设置：SET hive.exec.rowoffset=true 才可使用</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> hive.exec.rowoffset<span class="operator">=</span><span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> orderid, username, INPUT__FILE__NAME, BLOCK__OFFSET__INSIDE__FILE, ROW__OFFSET__INSIDE__BLOCK <span class="keyword">FROM</span> itheima.orders;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span>, BLOCK__OFFSET__INSIDE__FILE <span class="keyword">FROM</span> itheima.orders <span class="keyword">WHERE</span> BLOCK__OFFSET__INSIDE__FILE <span class="operator">&lt;</span> <span class="number">1000</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> orderid, username, INPUT__FILE__NAME, BLOCK__OFFSET__INSIDE__FILE, ROW__OFFSET__INSIDE__BLOCK <span class="keyword">FROM</span> itheima.orders_bucket;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> INPUT__FILE__NAME, <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">FROM</span> itheima.orders_bucket <span class="keyword">GROUP</span> <span class="keyword">BY</span> INPUT__FILE__NAME;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p>数值、集合、转换、日期函数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查看所有可用函数</span></span><br><span class="line"><span class="keyword">show</span> functions;</span><br><span class="line"><span class="comment">-- 查看函数使用方式</span></span><br><span class="line"><span class="keyword">describe</span> <span class="keyword">function</span> extended count;</span><br><span class="line"><span class="comment">-- 数值函数</span></span><br><span class="line"><span class="comment">-- round 取整，设置小数精度</span></span><br><span class="line"><span class="keyword">select</span> round(<span class="number">3.1415926</span>);		<span class="comment">-- 取整(四舍五入)</span></span><br><span class="line"><span class="keyword">select</span> round(<span class="number">3.1415926</span>, <span class="number">4</span>);		<span class="comment">-- 设置小数精度4位(四舍五入)</span></span><br><span class="line"><span class="comment">-- 随机数</span></span><br><span class="line"><span class="keyword">select</span> rand();					<span class="comment">-- 完全随机</span></span><br><span class="line"><span class="keyword">select</span> rand(<span class="number">3</span>);					<span class="comment">-- 设置随机数种子，设置种子后每次运行结果一致的</span></span><br><span class="line"><span class="comment">-- 绝对值</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">abs</span>(<span class="number">-3</span>);</span><br><span class="line"><span class="comment">-- 求PI</span></span><br><span class="line"><span class="keyword">select</span> pi();</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 集合函数</span></span><br><span class="line"><span class="comment">-- 求元素个数</span></span><br><span class="line"><span class="keyword">select</span> size(work_locations) <span class="keyword">from</span> test_array;</span><br><span class="line"><span class="keyword">select</span> size(members) <span class="keyword">from</span> test_map;</span><br><span class="line"><span class="comment">-- 取出map的全部key</span></span><br><span class="line"><span class="keyword">select</span> map_keys(members) <span class="keyword">from</span> test_map;</span><br><span class="line"><span class="comment">-- 取出map的全部value</span></span><br><span class="line"><span class="keyword">select</span> map_values(members) <span class="keyword">from</span> test_map;</span><br><span class="line"><span class="comment">-- 查询array内是否包含指定元素，是就返回True</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> test_array <span class="keyword">where</span> ARRAY_CONTAINS(work_locations, <span class="string">&#x27;tianjin&#x27;</span>);</span><br><span class="line"><span class="comment">-- 排序</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span>, sort_array(work_locations) <span class="keyword">from</span> test_array;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 类型转换函数</span></span><br><span class="line"><span class="comment">-- 转二进制</span></span><br><span class="line"><span class="keyword">select</span> <span class="type">binary</span>(<span class="string">&#x27;hadoop&#x27;</span>);</span><br><span class="line"><span class="comment">-- 自由转换，类型转换失败报错或返回NULL</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">cast</span>(<span class="string">&#x27;1&#x27;</span> <span class="keyword">as</span> <span class="type">bigint</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 日期函数</span></span><br><span class="line"><span class="comment">-- 当前时间戳</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">current_timestamp</span>();</span><br><span class="line"><span class="comment">-- 当前日期</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">current_date</span>();</span><br><span class="line"><span class="comment">-- 时间戳转日期</span></span><br><span class="line"><span class="keyword">select</span> to_date(<span class="built_in">current_timestamp</span>());</span><br><span class="line"><span class="comment">-- 年月日季度等</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">year</span>(<span class="string">&#x27;2020-01-11&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">month</span>(<span class="string">&#x27;2020-01-11&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">day</span>(<span class="string">&#x27;2020-01-11&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> quarter(<span class="string">&#x27;2020-05-11&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> dayofmonth(<span class="string">&#x27;2020-05-11&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">hour</span>(<span class="string">&#x27;2020-05-11 10:36:59&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">minute</span>(<span class="string">&#x27;2020-05-11 10:36:59&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">second</span>(<span class="string">&#x27;2020-05-11 10:36:59&#x27;</span>);</span><br><span class="line"><span class="keyword">select</span> weekofyear(<span class="string">&#x27;2020-05-11 10:36:59&#x27;</span>);</span><br><span class="line"><span class="comment">-- 日期之间的天数</span></span><br><span class="line"><span class="keyword">select</span> datediff(<span class="string">&#x27;2022-12-31&#x27;</span>, <span class="string">&#x27;2019-12-31&#x27;</span>);</span><br><span class="line"><span class="comment">-- 日期相加、相减</span></span><br><span class="line"><span class="keyword">select</span> date_add(<span class="string">&#x27;2022-12-31&#x27;</span>, <span class="number">5</span>);</span><br><span class="line"><span class="keyword">select</span> date_sub(<span class="string">&#x27;2022-12-31&#x27;</span>, <span class="number">5</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="社交案例操作SQL"><a href="#社交案例操作SQL" class="headerlink" title="社交案例操作SQL"></a>社交案例操作SQL</h2><p>准备数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建数据库</span></span><br><span class="line"><span class="keyword">create</span> database db_msg;</span><br><span class="line"><span class="comment">-- 选择数据库</span></span><br><span class="line">use db_msg;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 如果表已存在就删除</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> db_msg.tb_msg_source ;</span><br><span class="line"><span class="comment">-- 建表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> db_msg.tb_msg_source(</span><br><span class="line">    msg_time string comment &quot;消息发送时间&quot;,</span><br><span class="line">    sender_name string comment &quot;发送人昵称&quot;,</span><br><span class="line">    sender_account string comment &quot;发送人账号&quot;,</span><br><span class="line">    sender_sex string comment &quot;发送人性别&quot;,</span><br><span class="line">    sender_ip string comment &quot;发送人ip地址&quot;,</span><br><span class="line">    sender_os string comment &quot;发送人操作系统&quot;,</span><br><span class="line">    sender_phonetype string comment &quot;发送人手机型号&quot;,</span><br><span class="line">    sender_network string comment &quot;发送人网络类型&quot;,</span><br><span class="line">    sender_gps string comment &quot;发送人的GPS定位&quot;,</span><br><span class="line">    receiver_name string comment &quot;接收人昵称&quot;,</span><br><span class="line">    receiver_ip string comment &quot;接收人IP&quot;,</span><br><span class="line">    receiver_account string comment &quot;接收人账号&quot;,</span><br><span class="line">    receiver_os string comment &quot;接收人操作系统&quot;,</span><br><span class="line">    receiver_phonetype string comment &quot;接收人手机型号&quot;,</span><br><span class="line">    receiver_network string comment &quot;接收人网络类型&quot;,</span><br><span class="line">    receiver_gps string comment &quot;接收人的GPS定位&quot;,</span><br><span class="line">    receiver_sex string comment &quot;接收人性别&quot;,</span><br><span class="line">    msg_type string comment &quot;消息类型&quot;,</span><br><span class="line">    distance string comment &quot;双方距离&quot;,</span><br><span class="line">    message string comment &quot;消息内容&quot;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 上传数据到HDFS(Linux命令)</span></span><br><span class="line">hadoop fs <span class="operator">-</span>mkdir <span class="operator">-</span>p <span class="operator">/</span>chatdemo<span class="operator">/</span>data</span><br><span class="line">hadoop fs <span class="operator">-</span>put chat_data<span class="number">-30</span>W.csv <span class="operator">/</span>chatdemo<span class="operator">/</span>data<span class="operator">/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 加载数据到表中，基于HDFS加载</span></span><br><span class="line">load data inpath <span class="string">&#x27;/chatdemo/data/chat_data-30W.csv&#x27;</span> <span class="keyword">into</span> <span class="keyword">table</span> tb_msg_source;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 验证数据加载</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> tb_msg_source <span class="keyword">tablesample</span>(<span class="number">100</span> <span class="keyword">rows</span>);</span><br><span class="line"><span class="comment">-- 验证一下表的数量</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> tb_msg_source;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>ETL清洗转换</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> db_msg.tb_msg_etl(</span><br><span class="line">    msg_time string comment &quot;消息发送时间&quot;,</span><br><span class="line">    sender_name string comment &quot;发送人昵称&quot;,</span><br><span class="line">    sender_account string comment &quot;发送人账号&quot;,</span><br><span class="line">    sender_sex string comment &quot;发送人性别&quot;,</span><br><span class="line">    sender_ip string comment &quot;发送人ip地址&quot;,</span><br><span class="line">    sender_os string comment &quot;发送人操作系统&quot;,</span><br><span class="line">    sender_phonetype string comment &quot;发送人手机型号&quot;,</span><br><span class="line">    sender_network string comment &quot;发送人网络类型&quot;,</span><br><span class="line">    sender_gps string comment &quot;发送人的GPS定位&quot;,</span><br><span class="line">    receiver_name string comment &quot;接收人昵称&quot;,</span><br><span class="line">    receiver_ip string comment &quot;接收人IP&quot;,</span><br><span class="line">    receiver_account string comment &quot;接收人账号&quot;,</span><br><span class="line">    receiver_os string comment &quot;接收人操作系统&quot;,</span><br><span class="line">    receiver_phonetype string comment &quot;接收人手机型号&quot;,</span><br><span class="line">    receiver_network string comment &quot;接收人网络类型&quot;,</span><br><span class="line">    receiver_gps string comment &quot;接收人的GPS定位&quot;,</span><br><span class="line">    receiver_sex string comment &quot;接收人性别&quot;,</span><br><span class="line">    msg_type string comment &quot;消息类型&quot;,</span><br><span class="line">    distance string comment &quot;双方距离&quot;,</span><br><span class="line">    message string comment &quot;消息内容&quot;,</span><br><span class="line">    msg_day string comment &quot;消息日&quot;,</span><br><span class="line">    msg_hour string comment &quot;消息小时&quot;,</span><br><span class="line">    sender_lng <span class="keyword">double</span> comment &quot;经度&quot;,</span><br><span class="line">    sender_lat <span class="keyword">double</span> comment &quot;纬度&quot;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> OVERWRITE <span class="keyword">TABLE</span> db_msg.tb_msg_etl</span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">	<span class="operator">*</span>, </span><br><span class="line">	<span class="type">DATE</span>(msg_time) <span class="keyword">AS</span> msg_day, </span><br><span class="line">	<span class="keyword">HOUR</span>(msg_time) <span class="keyword">AS</span> msg_hour, </span><br><span class="line">	SPLIT(sender_gps, <span class="string">&#x27;,&#x27;</span>)[<span class="number">0</span>] <span class="keyword">AS</span> sender_lng, </span><br><span class="line">	SPLIT(sender_gps, <span class="string">&#x27;,&#x27;</span>)[<span class="number">1</span>] <span class="keyword">AS</span> sender_lat</span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_source</span><br><span class="line"><span class="keyword">WHERE</span> LENGTH(sender_gps) <span class="operator">&gt;</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>指标计算</p>
+<p>需求1</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--保存结果表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> tb_rs_total_msg_cnt </span><br><span class="line">COMMENT &quot;每日消息总量&quot; <span class="keyword">AS</span> </span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    msg_day, </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> total_msg_cnt </span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_etl </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> msg_day;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>需求2</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--保存结果表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> tb_rs_hour_msg_cnt </span><br><span class="line">COMMENT &quot;每小时消息量趋势&quot; <span class="keyword">AS</span>  </span><br><span class="line"><span class="keyword">SELECT</span>  </span><br><span class="line">    msg_hour, </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> total_msg_cnt, </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> sender_account) <span class="keyword">AS</span> sender_user_cnt, </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> receiver_account) <span class="keyword">AS</span> receiver_user_cnt</span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_etl <span class="keyword">GROUP</span> <span class="keyword">BY</span> msg_hour;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>需求3</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> tb_rs_loc_cnt</span><br><span class="line">COMMENT <span class="string">&#x27;今日各地区发送消息总量&#x27;</span> <span class="keyword">AS</span> </span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    msg_day,  </span><br><span class="line">    sender_lng, </span><br><span class="line">    sender_lat, </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> total_msg_cnt </span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_etl</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> msg_day, sender_lng, sender_lat;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>需求4</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--保存结果表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> tb_rs_user_cnt</span><br><span class="line">COMMENT &quot;今日发送消息人数、接受消息人数&quot; <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">msg_day, </span><br><span class="line"><span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> sender_account) <span class="keyword">AS</span> sender_user_cnt, </span><br><span class="line"><span class="built_in">COUNT</span>(<span class="keyword">DISTINCT</span> receiver_account) <span class="keyword">AS</span> receiver_user_cnt</span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_etl</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> msg_day;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>需求5</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--保存结果表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> db_msg.tb_rs_s_user_top10</span><br><span class="line">COMMENT &quot;发送消息条数最多的Top10用户&quot; <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    sender_name <span class="keyword">AS</span> username, </span><br><span class="line">    <span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> sender_msg_cnt </span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_etl </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> sender_name </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> sender_msg_cnt <span class="keyword">DESC</span> </span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>需求6</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> db_msg.tb_rs_r_user_top10</span><br><span class="line">COMMENT &quot;接收消息条数最多的Top10用户&quot; <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">receiver_name <span class="keyword">AS</span> username, </span><br><span class="line"><span class="built_in">COUNT</span>(<span class="operator">*</span>) <span class="keyword">AS</span> receiver_msg_cnt </span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_etl </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> receiver_name </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> receiver_msg_cnt <span class="keyword">DESC</span> </span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>需求7</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> db_msg.tb_rs_sender_phone</span><br><span class="line">COMMENT &quot;发送人的手机型号分布&quot; <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">    sender_phonetype, </span><br><span class="line">    <span class="built_in">COUNT</span>(sender_account) <span class="keyword">AS</span> cnt </span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_etl </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> sender_phonetype;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>需求8</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--保存结果表</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> db_msg.tb_rs_sender_os</span><br><span class="line">COMMENT &quot;发送人的OS分布&quot; <span class="keyword">AS</span></span><br><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">    sender_os, </span><br><span class="line">    <span class="built_in">COUNT</span>(sender_account) <span class="keyword">AS</span> cnt </span><br><span class="line"><span class="keyword">FROM</span> db_msg.tb_msg_etl </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> sender_os</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Hive列注释、表注释等乱码解决方案"><a href="#Hive列注释、表注释等乱码解决方案" class="headerlink" title="Hive列注释、表注释等乱码解决方案"></a>Hive列注释、表注释等乱码解决方案</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 在Hive的MySQL元数据库中执行</span></span><br><span class="line">use hive;</span><br><span class="line"></span><br><span class="line"><span class="number">1</span>).修改字段注释字符集</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> COLUMNS_V2 modify <span class="keyword">column</span> COMMENT <span class="type">varchar</span>(<span class="number">256</span>) <span class="type">character</span> <span class="keyword">set</span> utf8;</span><br><span class="line"><span class="number">2</span>).修改表注释字符集</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> TABLE_PARAMS modify <span class="keyword">column</span> PARAM_VALUE <span class="type">varchar</span>(<span class="number">4000</span>) <span class="type">character</span> <span class="keyword">set</span> utf8;</span><br><span class="line"><span class="number">3</span>).修改分区表参数，以支持分区键能够用中文表示</span><br><span class="line"></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> PARTITION_PARAMS modify <span class="keyword">column</span> PARAM_VALUE <span class="type">varchar</span>(<span class="number">4000</span>) <span class="type">character</span> <span class="keyword">set</span> utf8;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> PARTITION_KEYS modify <span class="keyword">column</span> PKEY_COMMENT <span class="type">varchar</span>(<span class="number">4000</span>) <span class="type">character</span> <span class="keyword">set</span> utf8;</span><br><span class="line"><span class="number">4</span>).修改索引注解</span><br><span class="line"></span><br><span class="line">mysql<span class="operator">&gt;</span><span class="keyword">alter</span> <span class="keyword">table</span> INDEX_PARAMS modify <span class="keyword">column</span> PARAM_VALUE <span class="type">varchar</span>(<span class="number">4000</span>) <span class="type">character</span> <span class="keyword">set</span> utf8;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/images/banner.webp" data-sizes="auto" alt="Redis实践" class="lazyload">
+        
+      
+      <a href="/2024/12/06/Redis%E9%A1%B9%E7%9B%AE/"></a>
+      <div class="article-nav-caption">Older</div>
+      <h3 class="article-nav-title">
+        
+          Redis实践
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hive-SQL-%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">Hive SQL 语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E8%AF%AD%E6%B3%95%E6%8F%8F%E8%BF%B0%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.</span> <span class="toc-text">基于语法描述说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">数据库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.2.1.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E6%94%B9LOCATION"><span class="toc-number">1.2.3.</span> <span class="toc-text">数据库修改LOCATION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.2.4.</span> <span class="toc-text">选择数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">表操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%BB%BA%E8%A1%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">基础建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%85%B6%E5%AE%83%E8%A1%A8%E7%9A%84%E7%BB%93%E6%9E%84%E5%BB%BA%E8%A1%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">基于其它表的结构建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E5%BB%BA%E8%A1%A8"><span class="toc-number">1.3.4.</span> <span class="toc-text">基于查询结果建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="toc-number">1.3.5.</span> <span class="toc-text">删除表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%A1%A8"><span class="toc-number">1.3.6.</span> <span class="toc-text">修改表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.7.</span> <span class="toc-text">分区操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%A1%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.8.</span> <span class="toc-text">分桶操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.3.9.</span> <span class="toc-text">数据加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%87%BA"><span class="toc-number">1.3.10.</span> <span class="toc-text">数据导出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.11.</span> <span class="toc-text">复杂类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%AF%BE%E5%A0%82SQL%E8%AE%B0%E5%BD%95"><span class="toc-number">1.4.</span> <span class="toc-text">数据查询的课堂SQL记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.4.1.</span> <span class="toc-text">基本查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RLIKE"><span class="toc-number">1.4.2.</span> <span class="toc-text">RLIKE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UNION%E8%81%94%E5%90%88"><span class="toc-number">1.4.3.</span> <span class="toc-text">UNION联合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sampling%E9%87%87%E6%A0%B7"><span class="toc-number">1.4.4.</span> <span class="toc-text">Sampling采样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%88%97"><span class="toc-number">1.4.5.</span> <span class="toc-text">虚拟列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.6.</span> <span class="toc-text">函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BE%E4%BA%A4%E6%A1%88%E4%BE%8B%E6%93%8D%E4%BD%9CSQL"><span class="toc-number">1.5.</span> <span class="toc-text">社交案例操作SQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive%E5%88%97%E6%B3%A8%E9%87%8A%E3%80%81%E8%A1%A8%E6%B3%A8%E9%87%8A%E7%AD%89%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.6.</span> <span class="toc-text">Hive列注释、表注释等乱码解决方案</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="John Doe" class="lazyload">
+  <div class="sidebar-author-name">John Doe</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">5</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+    
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2024
+      <span class="footer-info-sep rotate"></span>
+      John Doe
+    </div>
+    
+      <div>
+        Powered by&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        48k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        03:09
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">Number of visits&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">Number of visitors&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        
+          <div class="sidebar-top">
+            <div class="sidebar-top-taichi rotate"></div>
+            <div class="arrow-up"></div>
+          </div>
+        
+        <div id="mask" class="hide"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">Contents</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hive-SQL-%E8%AF%AD%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">Hive SQL 语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E8%AF%AD%E6%B3%95%E6%8F%8F%E8%BF%B0%E8%AF%B4%E6%98%8E"><span class="toc-number">1.1.</span> <span class="toc-text">基于语法描述说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.</span> <span class="toc-text">数据库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.2.1.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.2.2.</span> <span class="toc-text">删除数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BF%AE%E6%94%B9LOCATION"><span class="toc-number">1.2.3.</span> <span class="toc-text">数据库修改LOCATION</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.2.4.</span> <span class="toc-text">选择数据库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A1%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">表操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.1.</span> <span class="toc-text">数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%BB%BA%E8%A1%A8"><span class="toc-number">1.3.2.</span> <span class="toc-text">基础建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E5%85%B6%E5%AE%83%E8%A1%A8%E7%9A%84%E7%BB%93%E6%9E%84%E5%BB%BA%E8%A1%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">基于其它表的结构建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E5%BB%BA%E8%A1%A8"><span class="toc-number">1.3.4.</span> <span class="toc-text">基于查询结果建表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="toc-number">1.3.5.</span> <span class="toc-text">删除表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E8%A1%A8"><span class="toc-number">1.3.6.</span> <span class="toc-text">修改表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.7.</span> <span class="toc-text">分区操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%A1%B6%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.8.</span> <span class="toc-text">分桶操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD"><span class="toc-number">1.3.9.</span> <span class="toc-text">数据加载</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AF%BC%E5%87%BA"><span class="toc-number">1.3.10.</span> <span class="toc-text">数据导出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E6%9D%82%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.11.</span> <span class="toc-text">复杂类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2%E7%9A%84%E8%AF%BE%E5%A0%82SQL%E8%AE%B0%E5%BD%95"><span class="toc-number">1.4.</span> <span class="toc-text">数据查询的课堂SQL记录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%9F%A5%E8%AF%A2"><span class="toc-number">1.4.1.</span> <span class="toc-text">基本查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RLIKE"><span class="toc-number">1.4.2.</span> <span class="toc-text">RLIKE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UNION%E8%81%94%E5%90%88"><span class="toc-number">1.4.3.</span> <span class="toc-text">UNION联合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sampling%E9%87%87%E6%A0%B7"><span class="toc-number">1.4.4.</span> <span class="toc-text">Sampling采样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%88%97"><span class="toc-number">1.4.5.</span> <span class="toc-text">虚拟列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">1.4.6.</span> <span class="toc-text">函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A4%BE%E4%BA%A4%E6%A1%88%E4%BE%8B%E6%93%8D%E4%BD%9CSQL"><span class="toc-number">1.5.</span> <span class="toc-text">社交案例操作SQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hive%E5%88%97%E6%B3%A8%E9%87%8A%E3%80%81%E8%A1%A8%E6%B3%A8%E9%87%8A%E7%AD%89%E4%B9%B1%E7%A0%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="toc-number">1.6.</span> <span class="toc-text">Hive列注释、表注释等乱码解决方案</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="John Doe" class="lazyload">
+  <div class="sidebar-author-name">John Doe</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>Posts</div>
+    <div class="sidebar-state-number">5</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>Categories</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>Tags</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/" aria-label="Home"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Home</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/archives" aria-label="Archives"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Archives</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/about" aria-label="About"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">About</div>
+      </div>
+    
+      <div class="sidebar-menu-link-wrap">
+        <a class="sidebar-menu-link-dummy" href="/friend" aria-label="Friend"></a>
+        <div class="sidebar-menu-icon icon rotate">
+          &#xe62b;
+        </div>
+        <div class="sidebar-menu-link">Friend</div>
+      </div>
+    
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js" integrity="sha384-3gT&#x2F;vsepWkfz&#x2F;ff7PpWNUeMzeWoH3cDhm&#x2F;A8jM7ouoAK0&#x2F;fP&#x2F;9bcHHR5kHq2nf+e" crossorigin="anonymous"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js" integrity="sha384-J08i8An&#x2F;QeARD9ExYpvphB8BsyOj3Gh2TSh1aLINKO3L0cMSH2dN3E22zFoXEi0Q" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.6/dist/index.umd.js" integrity="sha384-vkGvf25gm1C1PbcoD5dNfc137HzNL&#x2F;hr1RKA5HniJOaawtvUmH5lTVFgFAruE9Ge" crossorigin="anonymous"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+
+<div id="lazy-script">
+  <div>
+    
+    
+      
+        
+<script src="/js/insert_highlight.js" data-pjax></script>
+
+      
+    
+    
+      <script type="module" data-pjax>
+        const PhotoSwipeLightbox = (await safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js", "sha384-DiL6M/gG+wmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF/N6lrZi/")).default;
+        
+        const pswp = () => {
+          if (_$$('.article-entry a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-entry',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+            new PhotoSwipeLightbox({
+              gallery: '.article-gallery',
+              children: 'a.article-gallery-item',
+              pswpModule: () => safeImport("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js", "sha384-WkkO3GCmgkC3VQWpaV8DqhKJqpzpF9JoByxDmnV8+oTJ7m3DfYEWX1fu1scuS4+s")
+            }).init();
+          }
+          window.lightboxStatus = 'done';
+          window.removeEventListener('lightbox:ready', pswp);
+        }
+        if(window.lightboxStatus === 'ready') {
+          pswp()
+        } else {
+          window.addEventListener('lightbox:ready', pswp);
+        }
+      </script>
+      
+
+
+
+
+
+
+
+
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '1.0.0' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" integrity="sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S" crossorigin="anonymous" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+
+
+
+  </body>
+  </html>
+
